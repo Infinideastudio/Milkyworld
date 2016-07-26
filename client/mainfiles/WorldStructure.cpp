@@ -31,7 +31,7 @@ void Chunk::save_chunk(string world_name, string planet_name)
 	//string file_path = ".\\save\\" + world_name + "\\" + planet_name
 	//	+ "\\chunk" + int_2_string(location.x) + "_"
 	//	+ int_2_string(location.y) + ".mwc";
-	string file_path = "D:\\#program set\\#Milkyworld\\client\\proj.win32\\Debug.win32\\save\\"
+	string file_path = "D:\\#program set\\Milkyworld\\client\\proj.win32\\Debug.win32\\save\\"
 			+ world_name + "\\" + planet_name
 			+ "\\chunk" + int_2_string(location.x) + "_"
 			+ int_2_string(location.y) + ".mwc";
@@ -39,8 +39,8 @@ void Chunk::save_chunk(string world_name, string planet_name)
 	//逐个输出block的数据
 	for (int i = 0; i < block_size_of_chunk; i++)
 	{
-		file << static_cast<int>(front_block[i].type) << " " << front_block[i].enabled_touch << endl;
-		file << static_cast<int>(mid_block[i].type) << endl;
+		file << static_cast<ushort>(front_block[i].type) << " " << front_block[i].enabled_touch << endl;
+		file << static_cast<ushort>(mid_block[i].type) << endl;
 	}
 	file.close();
 }
@@ -51,7 +51,7 @@ void Chunk::load_chunk(string world_name, string planet_name)
 	//string file_path = ".\\save\\" + world_name + "\\" + planet_name
 	//	+ "\\chunk" + int_2_string(location.x) + "_"
 	//	+ int_2_string(location.y) + ".mwc";
-	string file_path = "D:\\#program set\\#Milkyworld\\client\\proj.win32\\Debug.win32\\save\\"
+	string file_path = "D:\\#program set\\Milkyworld\\client\\proj.win32\\Debug.win32\\save\\"
 		+ world_name + "\\" + planet_name
 		+ "\\chunk" + int_2_string(location.x) + "_"
 		+ int_2_string(location.y) + ".mwc";
@@ -59,7 +59,7 @@ void Chunk::load_chunk(string world_name, string planet_name)
 	//逐个读入block的数据
 	for (int i = 0; i < block_size_of_chunk; i++)
 	{
-		int front_type, mid_type;
+		ushort front_type, mid_type;
 		file >> front_type >> front_block[i].enabled_touch;
 		file >> mid_type;
 		front_block[i].type = static_cast<FrontBlockType>(front_type);
@@ -78,13 +78,25 @@ void Chunk::load_chunk(string world_name, string planet_name)
 功能:定义Planet类的函数
 备注:无
 ************************************************/
+//设置地图中chunk的数量
+void Planet::set_chunk_size(Vec2i _size)
+{
+	chunk_size = _size;
+	chunk.resize(_size.x*_size.y);
+}
+//获取地图中chunk的数量
+Vec2i Planet::get_chunk_size()
+{
+	return chunk_size;
+}
 //根据绝对坐标找chunk的ID
 int Planet::get_chunk_id(Vec2i _location)
 {
-	for (int i = 0; i < chunk.size(); i++)
+	return _location.x*chunk_size.y + _location.y;
+	/*for (int i = 0; i < chunk.size(); i++)
 		if (chunk[i].get_location() == _location)
 			return i;
-	return -1;
+	return -1;*/
 }
 //根据绝对坐标找chunk
 Chunk Planet::get_chunk(Vec2i _location)

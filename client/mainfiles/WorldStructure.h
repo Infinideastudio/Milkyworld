@@ -93,21 +93,25 @@ private:
 /************************************************
 类名:行星
 功能:一个行星
-备注:地图大小n*64个区块，(16*n)*1024个方块,同时加载17*17个区块
+备注:地图大小n*64个区块，(16*n)*1024个方块
         n*16是星球的直径
 ************************************************/
 class Planet :public CelestialBody
 {
 public:
 	vector<Chunk> chunk;//加载的区块
-	Vec2 chunk_size;
 	string name;
+	//设置地图大小
+	void set_chunk_size(Vec2i _size);
+	//获取地图大小
+	Vec2i get_chunk_size();
 	//根据绝对坐标找chunk
 	Chunk get_chunk(Vec2i _location);
 	//根据绝对坐标找chunk的ID
 	int get_chunk_id(Vec2i _location);
 	//存储一个行星的数据到文件
 private:
+	Vec2i chunk_size;
 };
 
 /************************************************

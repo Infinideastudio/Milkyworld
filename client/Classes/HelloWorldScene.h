@@ -31,6 +31,7 @@ public:
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
 	void UI_printer(float dt);//UIªÊ÷∆œﬂ≥Ã
+	void game_processor(float dt);
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 };

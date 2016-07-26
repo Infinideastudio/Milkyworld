@@ -31,7 +31,7 @@ void UIBlock::create_sprite()
 void UIBlock::set_front_block(FrontBlock _block)
 {
 	front_block = _block;
-	front_sprite->setTexture(int_2_string(static_cast<int>(front_block.type)) + ".png");
+	front_sprite->setTexture(int_2_string(static_cast<ushort>(front_block.type)) + ".png");
 }
 void UIBlock::set_mid_block(MidBlock _block)
 {

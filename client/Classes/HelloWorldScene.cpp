@@ -64,7 +64,7 @@ bool HelloWorld::init()
 		   origin.y + visibleSize.height - label->getContentSize().height));
 
     // add the label as a child to this layer
-    this->addChild(label, 2);
+    this->addChild(label, 4);
 
     //// add "HelloWorld" splash screen"
     //auto sprite = Sprite::create("HelloWorld.png");
@@ -76,13 +76,12 @@ bool HelloWorld::init()
     //this->addChild(sprite, 0);
 	world.name = "MILKYWORLD_TEST_2016";
 	world.planet.name = "TEST_PLANET";
-	world.planet.chunk.resize(289);
-	
-	for (int i = -8; i <= 8; i++)
+	world.planet.set_chunk_size(Vec2i(5, 64));
+	/*for (int i = 0; i < world.planet.get_chunk_size().x; i++)
 	{
-		for (int j = -8; j <= 8; j++)
+		for (int j = 0; j < world.planet.get_chunk_size().y; j++)
 		{
-			int chunk_index = (i+8) * 16 + (j+8);
+			int chunk_index = i * world.planet.get_chunk_size().y + j;
 			world.planet.chunk[chunk_index].set_location(Vec2i(i, j));
 			for (int k = 0; k <= 15; k++)
 			{
@@ -95,13 +94,13 @@ bool HelloWorld::init()
 			}
 			world.planet.chunk[chunk_index].save_chunk(world.name, world.planet.name);
 		}
-	}
-	for (int i = 0; i <= 16; i++)
+	}*/
+	for (int i = 0; i < world.planet.get_chunk_size().x; i++)
 	{
-		for (int j = 0; j <= 16; j++)
+		for (int j = 0; j < world.planet.get_chunk_size().y; j++)
 		{
-			int chunk_index = i * 16 + j;
-			world.planet.chunk[chunk_index].set_location(Vec2i(i-8, j-8));
+			int chunk_index = i * world.planet.get_chunk_size().y + j;
+			world.planet.chunk[chunk_index].set_location(Vec2i(i, j));
 			world.planet.chunk[chunk_index].load_chunk(world.name, world.planet.name);
 		}
 	}
@@ -112,7 +111,51 @@ bool HelloWorld::init()
 	key_listener->onKeyPressed = CC_CALLBACK_2(HelloWorld::on_key_pressed, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(key_listener, this);
 	schedule(schedule_selector(HelloWorld::UI_printer), 0.02f);//20ms刷新屏幕一次,FPS=50
+	schedule(schedule_selector(HelloWorld::game_processor), 0.02f);//20ms处理一次游戏事件
     return true;
+}
+/************************************************
+函数名:游戏事件处理
+功能:用于处理游戏过程中的事件
+备注:20ms执行一次
+************************************************/
+void HelloWorld::game_processor(float dt)
+{
+	//四个方向分别判断是否按下按键，计算摄像机的坐标偏移量
+	for (int i = 0; i <= 3; i++)
+	{
+		if (keygroup_B_pressed[i])
+		{
+			camera.location += delta[i] * 5;
+		}
+	}
+	label->setString(int_2_string(camera.location.x) + "," + int_2_string(camera.location.y));//debug
+	//以下是关于地图左右循环的代码
+	int world_width = world.planet.get_chunk_size().x*length_of_block_size*picture_length;
+	int reset_camera = -1 * UI_block.size()*picture_length;
+	//over_map_flag=true表示camera已经到了正确的位置，所有方块都不再借用地图另一端的。
+	bool over_map_flag = false;
+	if (camera.location.x < reset_camera)
+	{
+		camera.location.x += world_width;
+		over_map_flag = true;
+	}
+	else
+	if (camera.location.x >= world_width + 3 * picture_length)
+	{
+		camera.location.x -= world_width;
+		over_map_flag = true;
+	}
+	if (over_map_flag)
+	{
+		for (int i = 0; i < UI_block.size(); i++)
+		{
+			for (int j = 0; j < UI_block[i].size(); j++)
+			{
+				UI_block[i][j].is_borrow = 0;
+			}
+		}
+	}
 }
 /************************************************
 函数名:UI打印线程
@@ -123,31 +166,40 @@ void HelloWorld::UI_printer(float dt)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-	//四个方向分别判断和计算摄像机的坐标偏移量
-	for (int i = 0; i <= 3; i++)
-		if (keygroup_B_pressed[i])
-			camera.location += delta[i] * 5;
+	//更新方块位置
 	for (int i = 0; i < UI_block.size(); i++)
 	{
 		for (int j = 0; j < UI_block[i].size(); j++)
 		{
 			Vec2 __position = UI_block[i][j].get_position();
-			Vec2i a, b;
-			bool move_flag = false;//转移标记
-			//越界转移代码
+			//是否转移的标记
+			bool move_flag = false;
+			//UI方块越界转移代码
+			//world_chunk_width表示地图的宽度(chunks在横向的数量)
+			int world_chunk_width = world.planet.get_chunk_size().x;
+			//UI方块从左侧越界
 			if (__position.x < -3 * picture_length)
 			{
 				move_flag = true;
 				UI_block[i][j].block_index.x += UI_block.size();//向右转移size个格子
-				a = UI_block[i][j].block_index;
-				b = UI_block[i][j].chunk_location;
 				while (UI_block[i][j].block_index.x >length_of_block_size-1)
 				{
 					UI_block[i][j].block_index.x -= length_of_block_size;
 					UI_block[i][j].chunk_location.x++;
 				}
+				//地图左右越界循环的判定
+				if (UI_block[i][j].is_borrow == -1)
+				{
+					UI_block[i][j].is_borrow = 0;
+					UI_block[i][j].chunk_location.x -= world_chunk_width;
+				}
+				if (UI_block[i][j].chunk_location.x >= world_chunk_width)
+				{
+					UI_block[i][j].chunk_location.x -= world_chunk_width;
+					UI_block[i][j].is_borrow = 1;
+				}
 			}
-			else 
+			else //UI方块从右侧越界
 			if (__position.x > 3 * picture_length + visibleSize.width)
 			{
 				move_flag = true;
@@ -157,22 +209,36 @@ void HelloWorld::UI_printer(float dt)
 					UI_block[i][j].block_index.x += length_of_block_size;
 					UI_block[i][j].chunk_location.x--;
 				}
+				//地图左右越界循环的判定
+				if (UI_block[i][j].is_borrow == 1)
+				{
+					UI_block[i][j].is_borrow = 0;
+					UI_block[i][j].chunk_location.x += world_chunk_width;
+				}
+				if (UI_block[i][j].chunk_location.x < 0)
+				{
+					UI_block[i][j].chunk_location.x += world_chunk_width;
+					UI_block[i][j].is_borrow = -1;
+				}
 			}
+			//UI方块从下方越界
 			if (__position.y < -3 * picture_length)
 			{
 				move_flag = true;
-				UI_block[i][j].block_index.y += UI_block[i].size();//向上转移size个格子
+				//向上转移size个格子
+				UI_block[i][j].block_index.y += UI_block[i].size();
 				while (UI_block[i][j].block_index.y >length_of_block_size - 1)
 				{
 					UI_block[i][j].block_index.y -= length_of_block_size;
 					UI_block[i][j].chunk_location.y++;
 				}
 			}
-			else
+			else//UI方块从上方越界
 			if (__position.y > 3 * picture_length + visibleSize.height)
 			{
 				move_flag = true;
-				UI_block[i][j].block_index.y -= UI_block[i].size();//向下转移size个格子
+				//向下转移size个格子
+				UI_block[i][j].block_index.y -= UI_block[i].size();
 				while (UI_block[i][j].block_index.y <0)
 				{
 					UI_block[i][j].block_index.y += length_of_block_size;
@@ -181,6 +247,7 @@ void HelloWorld::UI_printer(float dt)
 			}
 			if (move_flag)
 			{
+				//地图左右越界循环
 				UI_block[i][j].set_front_block(world.planet.get_chunk(UI_block[i][j].chunk_location).
 					front_block[UI_block[i][j].block_index.x * length_of_block_size + UI_block[i][j].block_index.y]);
 				UI_block[i][j].set_mid_block(world.planet.get_chunk(UI_block[i][j].chunk_location).
@@ -193,6 +260,8 @@ void HelloWorld::UI_printer(float dt)
 				+ UI_block[i][j].block_index.x * picture_length - camera.location.x;
 			__position.y = UI_block[i][j].chunk_location.y*length_of_block_size*picture_length
 				+ UI_block[i][j].block_index.y * picture_length - camera.location.y;
+			int world_width = world.planet.get_chunk_size().x*length_of_block_size*picture_length;
+			__position.x += UI_block[i][j].is_borrow*world_width;
 			UI_block[i][j].set_position(__position);
 		}
 	}
@@ -205,20 +274,23 @@ void HelloWorld::UI_printer(float dt)
 void HelloWorld::UI_processor_init()
 {
 	//设置摄像机坐标于原点
-	camera.location = Vec2(0, 0);
+	camera.location = Vec2(300, 32 * length_of_block_size * picture_length);
 	//初始化UI显示方块
 	UI_block.resize(36);//屏幕内32个，左右各两个
 	for (int i = 0; i < UI_block.size(); i++)
 	{
 		UI_block[i].resize(28);//屏幕内24个，上下各两个
 	}
+	//枚举每个UI方块，并初始化
 	for (int i = 0; i < UI_block.size(); i++)
 	{
 		for (int j = 0; j < UI_block[i].size(); j++)
 		{
 			UI_block[i][j].create_sprite();
+			//初始时设定方块非借用
+			UI_block[i][j].is_borrow = 0;
 			//location是绝对像素坐标，position是屏幕像素坐标 i-2是由于屏幕外有两个方块
-			Vec2l UI_block_position = Vec2l((i - 2)*picture_length, (j - 2)*picture_length);
+			Vec2 UI_block_position = Vec2((i - 2)*picture_length, (j - 2)*picture_length);
 			Vec2l UI_block_location;
 			//chunk_location是所属chunk在planet上的绝对坐标，block_location是所属block在chunk中的偏移坐标
 			Vec2i UI_block_chunk_location;
@@ -226,6 +298,23 @@ void HelloWorld::UI_processor_init()
 			//依次计算出各个location，来判断显示的是哪个方块。
 			UI_block_location.x = camera.location.x + (i - 2)*picture_length;
 			UI_block_location.y = camera.location.y + (j - 2)*picture_length;
+			//处理地图左右循环
+			//world_width代表地图的宽度(像素数)
+			int world_width = world.planet.get_chunk_size().x*length_of_block_size*picture_length;
+			if (UI_block_location.x < 0)
+			{
+				//从左侧越界，因此借用地图最右边的方块来显示
+				UI_block[i][j].is_borrow = -1;
+				UI_block_location.x += world_width;
+			}
+			else
+			if (UI_block_location.x >= world_width)
+			{
+				//从右侧越界，因此借用地图最左边的方块来显示
+				UI_block[i][j].is_borrow = 1;
+				UI_block_location.x -= world_width;
+			}
+			//计算UI方块所对应的chunk的位置
 			UI_block_chunk_location.x = UI_block_location.x / (length_of_block_size*picture_length);
 			UI_block_chunk_location.y = UI_block_location.y / (length_of_block_size*picture_length);
 			if (UI_block_location.x < 0)UI_block_chunk_location.x -= 1;
@@ -249,8 +338,7 @@ void HelloWorld::UI_processor_init()
 				back_block[UI_block_block_location.x * length_of_block_size + UI_block_block_location.y]);
 			UI_block[i][j].mid_sprite->setVisible(false);
 			UI_block[i][j].back_sprite->setVisible(false);
-			UI_block[i][j].set_position(Vec2((i - 2)*picture_length - camera.location.x,
-				(j - 2)*picture_length - camera.location.y));
+			UI_block[i][j].set_position(UI_block_position);
 			this->addChild(UI_block[i][j].front_sprite, 3);
 			this->addChild(UI_block[i][j].mid_sprite, 2);
 			this->addChild(UI_block[i][j].back_sprite, 1);
