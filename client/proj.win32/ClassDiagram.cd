@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AppDelegate" Collapsed="true">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAACAAQAAAEAAAAAAAAAAAAk=</HashCode>
+      <FileName>D:\#program set\#Milkyworld\client\Classes\AppDelegate.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HelloWorld" Collapsed="true">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIEQAAAgAAABAAAAAIAAAAAAAABCIgABAAAABACQA=</HashCode>
+      <FileName>D:\#program set\#Milkyworld\client\Classes\HelloWorldScene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UICamera" Collapsed="true">
+    <Position X="9.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\#program set\#Milkyworld\client\mainfiles\WorldAlgorithms.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UIBlock" Collapsed="true">
+    <Position X="7.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACQAAABAAQCAgAAAAIAAAAAAAgAAEAAACAAMAAAA=</HashCode>
+      <FileName>D:\#program set\#Milkyworld\client\mainfiles\WorldAlgorithms.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Vec2l" Collapsed="true">
+    <Position X="7.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAQAAAAAAAAAACABgAAAAAAA=</HashCode>
+      <FileName>D:\#program set\#Milkyworld\client\mainfiles\WorldAlgorithms.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Vec2i" Collapsed="true">
+    <Position X="11.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAQAAAAAAAAAAAABgAAAABAA=</HashCode>
+      <FileName>D:\#program set\#Milkyworld\client\mainfiles\WorldAlgorithms.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Block" Collapsed="true">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\#program set\#Milkyworld\client\mainfiles\WorldStructure.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FrontBlock" Collapsed="true">
+    <Position X="0.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\#program set\#Milkyworld\client\mainfiles\WorldStructure.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MidBlock" Collapsed="true">
+    <Position X="3" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\#program set\#Milkyworld\client\mainfiles\WorldStructure.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BackBlock" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\#program set\#Milkyworld\client\mainfiles\WorldStructure.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Chunk" Collapsed="true">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAgAABAAAICAAAAAAACAAACCAEgBAA=</HashCode>
+      <FileName>D:\#program set\#Milkyworld\client\mainfiles\WorldStructure.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CelestialBody" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\#program set\#Milkyworld\client\mainfiles\WorldStructure.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Planet" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAACAAAEAiAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\#program set\#Milkyworld\client\mainfiles\WorldStructure.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="World" Collapsed="true">
+    <Position X="9.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAEAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\#program set\#Milkyworld\client\mainfiles\WorldStructure.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="FrontBlockType" Collapsed="true">
+    <Position X="9.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAgBAAAAAAgAAABAAAgQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\#program set\#Milkyworld\client\mainfiles\Definition.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="MidBlockType" Collapsed="true">
+    <Position X="11.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAABAAgAAAAEAAAAAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\#program set\#Milkyworld\client\mainfiles\Definition.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="BackBlockType" Collapsed="true">
+    <Position X="7.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAgBAAAAAAAAAABAAAgQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>D:\#program set\#Milkyworld\client\mainfiles\Definition.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="微软雅黑" Size="9" />
+</ClassDiagram>
