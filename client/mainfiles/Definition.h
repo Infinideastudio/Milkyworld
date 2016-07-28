@@ -9,6 +9,7 @@
 #define picture_length  32
 #define uint  unsigned int
 #define ushort  unsigned short
+#define ull  unsigned long long
 /************************************************
 枚举类名:前景方块类型
 功能:表示方块的类型
@@ -22,7 +23,7 @@ enum class FrontBlockType : ushort
 	stone,//圆石3
 	dirt,//泥土4
 	grass,//草地5
-	hydrogen,//氢气6
+	water,//水6
 };
 /************************************************
 枚举类名:中景方块类型

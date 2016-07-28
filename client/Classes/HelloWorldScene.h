@@ -14,6 +14,7 @@ class HelloWorld : public cocos2d::Layer
 public:
 	UICamera camera;
 	vector<vector<UIBlock> > UI_block;
+	Sprite* back_ground;
 	World world;
 	Label* label;
 	//UI处理器初始化函数

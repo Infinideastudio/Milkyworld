@@ -34,13 +34,12 @@ Scene* HelloWorld::createScene()
 ************************************************/
 bool HelloWorld::init()
 {
-    //////////////////////////////
-    // 1. super init first
+	//////////////////////////////
+	// 1. super init first
     if ( !Layer::init() )
     {
         return false;
     }
-    
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
@@ -67,34 +66,34 @@ bool HelloWorld::init()
     this->addChild(label, 4);
 
     //// add "HelloWorld" splash screen"
-    //auto sprite = Sprite::create("HelloWorld.png");
+    back_ground = Sprite::create("White.png");
+	//back_ground->setColor(Color3B(255, 128, 0));
+	back_ground->setColor(Color3B(215, 240, 247));
+	
+    // position the sprite on the center of the screen
+	back_ground->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 
-    //// position the sprite on the center of the screen
-    //sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-    //// add the sprite as a child to this layer
-    //this->addChild(sprite, 0);
+    // add the sprite as a child to this layer
+	this->addChild(back_ground, 0);
+	keygroup_A_pressed[0] = 0;
+	keygroup_A_pressed[1] = 0;
+	keygroup_A_pressed[2] = 0;
+	keygroup_A_pressed[3] = 0;
 	world.name = "MILKYWORLD_TEST_2016";
 	world.planet.name = "TEST_PLANET";
-	world.planet.set_chunk_size(Vec2i(5, 64));
+	world.planet.set_chunk_size(Vec2i(1024, 64));
+	world.planet.sea_level = 768;
+	world.planet.set_terrain_seed((unsigned)time(0));
+	world.planet.generate_terrain();
 	/*for (int i = 0; i < world.planet.get_chunk_size().x; i++)
 	{
 		for (int j = 0; j < world.planet.get_chunk_size().y; j++)
 		{
 			int chunk_index = i * world.planet.get_chunk_size().y + j;
 			world.planet.chunk[chunk_index].set_location(Vec2i(i, j));
-			for (int k = 0; k <= 15; k++)
-			{
-				for (int l = 0; l <= 15; l++)
-				{
-					world.planet.chunk[chunk_index].front_block[k * 16 + l].type = FrontBlockType::rock;
-					world.planet.chunk[chunk_index].front_block[k * 16 + l].enabled_touch = true;
-					world.planet.chunk[chunk_index].mid_block[k * 16 + l].type = MidBlockType::_void;
-				}
-			}
 			world.planet.chunk[chunk_index].save_chunk(world.name, world.planet.name);
 		}
-	}*/
+	}
 	for (int i = 0; i < world.planet.get_chunk_size().x; i++)
 	{
 		for (int j = 0; j < world.planet.get_chunk_size().y; j++)
@@ -103,7 +102,7 @@ bool HelloWorld::init()
 			world.planet.chunk[chunk_index].set_location(Vec2i(i, j));
 			world.planet.chunk[chunk_index].load_chunk(world.name, world.planet.name);
 		}
-	}
+	}*/
 	UI_processor_init();
 	key_listener = EventListenerKeyboard::create();
 	key_listener->setEnabled(true);
@@ -124,15 +123,15 @@ void HelloWorld::game_processor(float dt)
 	//四个方向分别判断是否按下按键，计算摄像机的坐标偏移量
 	for (int i = 0; i <= 3; i++)
 	{
-		if (keygroup_B_pressed[i])
+		if (keygroup_A_pressed[i])
 		{
-			camera.location += delta[i] * 5;
+			camera.location += delta[i] * 20;
 		}
 	}
 	label->setString(int_2_string(camera.location.x) + "," + int_2_string(camera.location.y));//debug
 	//以下是关于地图左右循环的代码
 	int world_width = world.planet.get_chunk_size().x*length_of_block_size*picture_length;
-	int reset_camera = -1 * UI_block.size()*picture_length;
+	int reset_camera = -1 * UI_block.size()*picture_length - 3* picture_length;
 	//over_map_flag=true表示camera已经到了正确的位置，所有方块都不再借用地图另一端的。
 	bool over_map_flag = false;
 	if (camera.location.x < reset_camera)
@@ -141,7 +140,7 @@ void HelloWorld::game_processor(float dt)
 		over_map_flag = true;
 	}
 	else
-	if (camera.location.x >= world_width + 3 * picture_length)
+	if (camera.location.x >= world_width + 7 * picture_length)
 	{
 		camera.location.x -= world_width;
 		over_map_flag = true;
@@ -247,7 +246,6 @@ void HelloWorld::UI_printer(float dt)
 			}
 			if (move_flag)
 			{
-				//地图左右越界循环
 				UI_block[i][j].set_front_block(world.planet.get_chunk(UI_block[i][j].chunk_location).
 					front_block[UI_block[i][j].block_index.x * length_of_block_size + UI_block[i][j].block_index.y]);
 				UI_block[i][j].set_mid_block(world.planet.get_chunk(UI_block[i][j].chunk_location).
@@ -274,7 +272,7 @@ void HelloWorld::UI_printer(float dt)
 void HelloWorld::UI_processor_init()
 {
 	//设置摄像机坐标于原点
-	camera.location = Vec2(300, 32 * length_of_block_size * picture_length);
+	camera.location = Vec2(300, world.planet.sea_level * picture_length);
 	//初始化UI显示方块
 	UI_block.resize(36);//屏幕内32个，左右各两个
 	for (int i = 0; i < UI_block.size(); i++)

@@ -42,6 +42,7 @@ void Chunk::save_chunk(string world_name, string planet_name)
 		file << static_cast<ushort>(front_block[i].type) << " " << front_block[i].enabled_touch << endl;
 		file << static_cast<ushort>(mid_block[i].type) << endl;
 	}
+
 	file.close();
 }
 //从二进制文件读取chunk数据
@@ -99,7 +100,85 @@ int Planet::get_chunk_id(Vec2i _location)
 	return -1;*/
 }
 //根据绝对坐标找chunk
-Chunk Planet::get_chunk(Vec2i _location)
+Chunk& Planet::get_chunk(Vec2i _location)
 {
 	return chunk[get_chunk_id(_location)];
+}
+//直接操作block
+FrontBlock& Planet::front_block(Vec2i _location)
+{
+	Vec2i chunk_location = Vec2i(_location.x / length_of_block_size, _location.y / length_of_block_size);
+	Vec2i block_location = Vec2i(_location.x % length_of_block_size, _location.y % length_of_block_size);
+	int chunk_index = chunk_location.x*chunk_size.y + chunk_location.y;
+	int block_index = block_location.x*length_of_block_size + block_location.y;
+	return chunk[chunk_index].front_block[block_index];
+}
+//设置地形种子
+void Planet::set_terrain_seed(ull seed)
+{
+	terrain_seed = seed;
+	noise_perducer.seed = seed;
+}
+//生成地形
+void Planet::generate_terrain()
+{
+	noise_perducer.frequency = 0.03;
+	noise_perducer.amplitude = 3;
+	int now = sea_level;//当前高度
+	int target = sea_level;//目标高度
+	int height;
+	height = noise_perducer.perlin_noise(0) + sea_level;
+	for (int i = 0; i < get_chunk_size().x*length_of_block_size; i++)
+	{
+		//if (height >= sea_level && height < sea_level + 3)//平原
+		//{
+		//	noise_perducer.frequency = 0.03;
+		//	noise_perducer.amplitude = 1;
+		//	sea_level = 768;
+		//}
+		//else
+		//if (height >= sea_level + 3 && height < sea_level + 20)//丘陵
+		//{
+		//	noise_perducer.frequency = 0.05;
+		//	noise_perducer.amplitude = 3;
+		//	sea_level = 768 + 3;
+		//}
+		//else
+		//if (height >= sea_level + 20)//山地
+		//{
+		//	noise_perducer.frequency = 0.5;//幅度变化,频率加大
+		//	noise_perducer.amplitude = 6;
+		//	sea_level = 768 + 20;
+		//}
+		height = noise_perducer.perlin_noise(i) + sea_level;
+		for (int j = 0; j < get_chunk_size().y*length_of_block_size; j++)
+		{
+			if (j <= sea_level && j>height)
+			{
+				if (sea_level = 768)
+					front_block(Vec2i(i, j)).type = FrontBlockType::water;
+				else
+					front_block(Vec2i(i, j)).type = FrontBlockType::stone;
+				front_block(Vec2i(i, j)).enabled_touch = true;
+				continue;
+			}
+			else
+			if (j < height||j<sea_level)
+			{
+				front_block(Vec2i(i, j)).type = FrontBlockType::stone;
+				front_block(Vec2i(i, j)).enabled_touch = true;
+			}
+			else
+			if (j == height)
+			{
+				front_block(Vec2i(i, j)).type = FrontBlockType::stone;
+				front_block(Vec2i(i, j)).enabled_touch = true;
+			}
+			else
+			{
+				front_block(Vec2i(i, j)).type = FrontBlockType::air;
+				front_block(Vec2i(i, j)).enabled_touch = false;
+			}
+		}
+	}
 }
