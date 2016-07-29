@@ -7,6 +7,26 @@ client/proj.linux
 client/proj.ios_mac
 client/proj.android
 client/proj.android-studio
+<<<<<<< HEAD
+chenchen's tree algorithm/晨晨的树木生长算法.sdf
+chenchen's tree algorithm/ipch
+chenchen's tree algorithm/Debug
+chenchen's tree algorithm/Release
+chenchen's tree algorithm/chenchen's tree algorithm/Debug
+chenchen's tree algorithm/chenchen's tree algorithm/Release
+=======
 晨晨的树木生长算法/晨晨的树木生长算法.sdf
 晨晨的树木生长算法/ipch
-晨晨的树木生长算法/debug
+晨晨的树木生长算法/Debug
+晨晨的树木生长算法/Release
+晨晨的树木生长算法/晨晨的树木生长算法/Debug
+<<<<<<< HEAD
+<<<<<<< HEAD
+晨晨的树木生长算法/晨晨的树木生长算法/Release
+>>>>>>> origin/master
+=======
+晨晨的树木生长算法/晨晨的树木生长算法/Release
+>>>>>>> ce4eda25225da4dd85500121ba4ea4dcd3aba223
+=======
+晨晨的树木生长算法/晨晨的树木生长算法/Release
+>>>>>>> origin/master
