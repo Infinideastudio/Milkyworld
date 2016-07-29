@@ -50,7 +50,12 @@ void UIBlock::set_back_block(BackBlock _block)
 	back_block = _block;
 	back_sprite->setTexture("HelloWorld.png");
 }
-
+/************************************************
+变量:命名空间变量定义
+功能:定义变量
+备注:无
+************************************************/
+int world_vars::game_load_schedule;
 /************************************************
 函数块:类型转换函数
 功能:在几个常用类型之间转换

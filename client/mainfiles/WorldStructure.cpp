@@ -130,6 +130,7 @@ void Planet::generate_terrain()
 	height = noise_perducer.perlin_noise(0) + sea_level;
 	for (int i = 0; i < get_chunk_size().x*length_of_block_size; i++)
 	{
+		world_vars::game_load_schedule = i * 100 / (get_chunk_size().x*length_of_block_size);
 		//if (height >= sea_level && height < sea_level + 3)//ƽԭ
 		//{
 		//	noise_perducer.frequency = 0.03;

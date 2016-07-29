@@ -17,10 +17,14 @@ public:
 	Sprite* back_ground;
 	World world;
 	Label* label;
+	//加载进度条
+	Label* game_load_label;
 	//UI处理器初始化函数
 	void UI_processor_init();
 	bool keygroup_A_pressed[4];//wsad
 	bool keygroup_B_pressed[4];//上下左右
+	//是否加载中,如果加载中则不能跳转到游戏界面
+	bool loading_flag;
 	//按键监听器
 	EventListenerKeyboard *key_listener;
 	//创建scene函数
@@ -33,6 +37,12 @@ public:
     void menuCloseCallback(cocos2d::Ref* pSender);
 	void UI_printer(float dt);//UI绘制线程
 	void game_processor(float dt);
+	//游戏加载
+	void game_load(float dt);
+	//多线程加载世界
+	void game_planet_load();
+	//游戏加载过程中更新进度条的函数
+	void game_load_bar(float dt);
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 };

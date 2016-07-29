@@ -7,6 +7,20 @@ using namespace std;
 using namespace AlgorithmVar;
 USING_NS_CC;
 /************************************************
+流程解释:游戏加载的过程
+进入scene之后，首先进入默认的init函数
+在默认的init函数中绘制loading字样，然后开启两个计时器
+game_load:加载游戏，0.02s执行一次
+game_load_bar:不断更新加载进度，0.02s执行一次
+在加载过程中，第一次执行game_load时先绘制一部分必要的
+sprite，然后开启分支线程game_planet_load来加载planet
+的数据。线程开启后立即退出game_load。
+之后每次执行game_load，若加载进度未达到100，则不执行
+之后的代码。当某次执行game_load时加载进度达到100，
+则停止game_load_bar，并且继续执行game_load中后续的UI
+绘制等杂项，然后自行停止game_load计时器，世界加载完毕。
+************************************************/
+/************************************************
 函数名:创建scene
 功能:创建主场景
 备注:
@@ -42,75 +56,18 @@ bool HelloWorld::init()
     }
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
-
-    // add a "close" icon to exit the progress. it's an autorelease object
-    // create menu, it's an autorelease object
-
-    /////////////////////////////
-    // 3. add your codes below...
-
-    // add a label shows "Hello World"
-    // create and initialize a label
-    
-    label = Label::createWithTTF("Hello MilkyWorld", "fonts/Marker Felt.ttf", 24);
-    
-    // position the label on the center of the screen
-    label->setPosition(Vec2(origin.x + visibleSize.width/2,
-		   origin.y + visibleSize.height - label->getContentSize().height));
-
-    // add the label as a child to this layer
-    this->addChild(label, 4);
-
-    //// add "HelloWorld" splash screen"
-    back_ground = Sprite::create("White.png");
-	//back_ground->setColor(Color3B(255, 128, 0));
+	back_ground = Sprite::create("White.png");
 	back_ground->setColor(Color3B(215, 240, 247));
-	
-    // position the sprite on the center of the screen
 	back_ground->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
-
-    // add the sprite as a child to this layer
-	this->addChild(back_ground, 0);
-	keygroup_A_pressed[0] = 0;
-	keygroup_A_pressed[1] = 0;
-	keygroup_A_pressed[2] = 0;
-	keygroup_A_pressed[3] = 0;
-	world.name = "MILKYWORLD_TEST_2016";
-	world.planet.name = "TEST_PLANET";
-	world.planet.set_chunk_size(Vec2i(1024, 64));
-	world.planet.sea_level = 768;
-	world.planet.set_terrain_seed((unsigned)time(0));
-	world.planet.generate_terrain();
-	/*for (int i = 0; i < world.planet.get_chunk_size().x; i++)
-	{
-		for (int j = 0; j < world.planet.get_chunk_size().y; j++)
-		{
-			int chunk_index = i * world.planet.get_chunk_size().y + j;
-			world.planet.chunk[chunk_index].set_location(Vec2i(i, j));
-			world.planet.chunk[chunk_index].save_chunk(world.name, world.planet.name);
-		}
-	}
-	for (int i = 0; i < world.planet.get_chunk_size().x; i++)
-	{
-		for (int j = 0; j < world.planet.get_chunk_size().y; j++)
-		{
-			int chunk_index = i * world.planet.get_chunk_size().y + j;
-			world.planet.chunk[chunk_index].set_location(Vec2i(i, j));
-			world.planet.chunk[chunk_index].load_chunk(world.name, world.planet.name);
-		}
-	}*/
-	UI_processor_init();
-	key_listener = EventListenerKeyboard::create();
-	key_listener->setEnabled(true);
-	key_listener->onKeyReleased = CC_CALLBACK_2(HelloWorld::on_key_released, this);
-	key_listener->onKeyPressed = CC_CALLBACK_2(HelloWorld::on_key_pressed, this);
-	_eventDispatcher->addEventListenerWithSceneGraphPriority(key_listener, this);
-	schedule(schedule_selector(HelloWorld::UI_printer), 0.02f);//20ms刷新屏幕一次,FPS=50
-	schedule(schedule_selector(HelloWorld::game_processor), 0.02f);//20ms处理一次游戏事件
+	this->addChild(back_ground, 5);
+	game_load_label = Label::createWithTTF("Loading...0%", "fonts/Marker Felt.ttf", 48);
+	game_load_label->setColor(Color3B(195, 195, 195));
+	game_load_label->setPosition(Vec2(origin.x + visibleSize.width / 2,
+		origin.y + visibleSize.height/2));
+	this->addChild(game_load_label, 6);
+	loading_flag = false;
+	schedule(schedule_selector(HelloWorld::game_load), 0.02f);//加载游戏
+	schedule(schedule_selector(HelloWorld::game_load_bar), 0.02f);//更新加载进度条
     return true;
 }
 /************************************************
@@ -390,6 +347,93 @@ void HelloWorld::on_key_pressed(EventKeyboard::KeyCode keyCode, Event* event)
 		keygroup_A_pressed[2] = true;
 	if (keyCode == EventKeyboard::KeyCode::KEY_D)  //d键
 		keygroup_A_pressed[3] = true;
+}
+/************************************************
+函数名:游戏加载
+功能:用于初始化各项内容，包括加载世界，初始化显示等
+备注:
+************************************************/
+void HelloWorld::game_load(float dt)
+{
+	//如果加载过一遍了就不能再加载
+	if (!loading_flag)
+	{
+		Size visibleSize = Director::getInstance()->getVisibleSize();
+		Vec2 origin = Director::getInstance()->getVisibleOrigin();
+		label = Label::createWithTTF("Hello MilkyWorld", "fonts/Marker Felt.ttf", 24);
+		// position the label on the center of the screen
+		label->setPosition(Vec2(origin.x + visibleSize.width / 2,
+			origin.y + visibleSize.height - label->getContentSize().height));
+		// add the label as a child to this layer
+		this->addChild(label, 4);
+		keygroup_A_pressed[0] = 0;
+		keygroup_A_pressed[1] = 0;
+		keygroup_A_pressed[2] = 0;
+		keygroup_A_pressed[3] = 0;
+		world.name = "MILKYWORLD_TEST_2016";
+		world.planet.name = "TEST_PLANET";
+		world.planet.set_chunk_size(Vec2i(1024, 64));
+		world.planet.sea_level = 768;
+		world.planet.set_terrain_seed((unsigned)time(0));
+		world_vars::game_load_schedule = 0;
+		//创建一个分支线程用来加载世界，回调到game_load函数里
+		thread game_load_thread(&HelloWorld::game_planet_load, this);
+		game_load_thread.detach();
+		loading_flag = true;
+	}
+	//没有加载好就退出,等待下一次执行到这个函数再判断
+	if (world_vars::game_load_schedule < 100)return;
+	this->unschedule(schedule_selector(HelloWorld::game_load_bar));
+	//while (world_vars::game_load_schedule < 100);
+	/*for (int i = 0; i < world.planet.get_chunk_size().x; i++)
+	{
+	for (int j = 0; j < world.planet.get_chunk_size().y; j++)
+	{
+	int chunk_index = i * world.planet.get_chunk_size().y + j;
+	world.planet.chunk[chunk_index].set_location(Vec2i(i, j));
+	world.planet.chunk[chunk_index].save_chunk(world.name, world.planet.name);
+	}
+	}
+	for (int i = 0; i < world.planet.get_chunk_size().x; i++)
+	{
+	for (int j = 0; j < world.planet.get_chunk_size().y; j++)
+	{
+	int chunk_index = i * world.planet.get_chunk_size().y + j;
+	world.planet.chunk[chunk_index].set_location(Vec2i(i, j));
+	world.planet.chunk[chunk_index].load_chunk(world.name, world.planet.name);
+	}
+	}*/
+	UI_processor_init();
+	key_listener = EventListenerKeyboard::create();
+	key_listener->setEnabled(true);
+	key_listener->onKeyReleased = CC_CALLBACK_2(HelloWorld::on_key_released, this);
+	key_listener->onKeyPressed = CC_CALLBACK_2(HelloWorld::on_key_pressed, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(key_listener, this);
+	back_ground->setZOrder(0);
+	game_load_label->setVisible(false);
+	this->unschedule(schedule_selector(HelloWorld::game_load));
+	schedule(schedule_selector(HelloWorld::UI_printer), 0.02f);//20ms刷新屏幕一次,FPS=50
+	schedule(schedule_selector(HelloWorld::game_processor), 0.02f);//20ms处理一次游戏事件
+}
+/************************************************
+函数名:游戏加载进度条
+功能:用于更新加载进度条
+备注:
+************************************************/
+void HelloWorld::game_load_bar(float dt)
+{
+	game_load_label->setString("World creating..." + int_2_string(world_vars::game_load_schedule) + "%");
+}
+/************************************************
+函数名:世界加载
+功能:加载/生成世界
+备注:分支线程调用
+************************************************/
+void HelloWorld::game_planet_load()
+{
+	//加载地形
+	world.planet.generate_terrain();
+	world_vars::game_load_schedule = 100;
 }
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {
