@@ -69,6 +69,8 @@ public:
 	void load();
 	//设置前景方块
 	void set_front_block(Vec2i position, FrontBlock front_block);
+	//获取前景方块
+	FrontBlock& get_front_block(Vec2i location);
 	//设置chunk在planet里的绝对坐标
 	void set_location(Vec2i p);
 	//获取chunk在planet里的绝对坐标
@@ -99,7 +101,6 @@ private:
 class Planet :public CelestialBody
 {
 public:
-	vector<Chunk> chunk;//加载的区块
 	string name;
 	//海平面高度
 	int sea_level;
@@ -121,6 +122,7 @@ private:
 	Vec2i chunk_size;
 	ull terrain_seed;
 	PerlinNoise noise_perducer;
+	vector<Chunk> chunk;//加载的区块
 };
 
 /************************************************

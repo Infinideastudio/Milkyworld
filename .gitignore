@@ -7,6 +7,7 @@ client/proj.linux
 client/proj.ios_mac
 client/proj.android
 client/proj.android-studio
+client/proj.win32/Release.win32
 <<<<<<< HEAD
 chenchen's tree algorithm/晨晨的树木生长算法.sdf
 chenchen's tree algorithm/ipch

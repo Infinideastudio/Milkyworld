@@ -1,5 +1,5 @@
-#include "HelloWorldScene.h"
-//#include "stdafx.h"//vs×¨ÓÃÍ·ÎÄ¼ş£¬ÓÃÆäËû±àÒëÆ÷±àÒë¿É×¢ÊÍµô
+ï»¿#include "HelloWorldScene.h"
+//#include "stdafx.h"//vsä¸“ç”¨å¤´æ–‡ä»¶ï¼Œç”¨å…¶ä»–ç¼–è¯‘å™¨ç¼–è¯‘å¯æ³¨é‡Šæ‰
 #include "mainfiles\Definition.h"
 #include "mainfiles\WorldStructure.h"
 #include<iostream>
@@ -7,23 +7,23 @@ using namespace std;
 using namespace AlgorithmVar;
 USING_NS_CC;
 /************************************************
-Á÷³Ì½âÊÍ:ÓÎÏ·¼ÓÔØµÄ¹ı³Ì
-½øÈësceneÖ®ºó£¬Ê×ÏÈ½øÈëÄ¬ÈÏµÄinitº¯Êı
-ÔÚÄ¬ÈÏµÄinitº¯ÊıÖĞ»æÖÆloading×ÖÑù£¬È»ºó¿ªÆôÁ½¸ö¼ÆÊ±Æ÷
-game_load:¼ÓÔØÓÎÏ·£¬0.02sÖ´ĞĞÒ»´Î
-game_load_bar:²»¶Ï¸üĞÂ¼ÓÔØ½ø¶È£¬0.02sÖ´ĞĞÒ»´Î
-ÔÚ¼ÓÔØ¹ı³ÌÖĞ£¬µÚÒ»´ÎÖ´ĞĞgame_loadÊ±ÏÈ»æÖÆÒ»²¿·Ö±ØÒªµÄ
-sprite£¬È»ºó¿ªÆô·ÖÖ§Ïß³Ìgame_planet_loadÀ´¼ÓÔØplanet
-µÄÊı¾İ¡£Ïß³Ì¿ªÆôºóÁ¢¼´ÍË³ögame_load¡£
-Ö®ºóÃ¿´ÎÖ´ĞĞgame_load£¬Èô¼ÓÔØ½ø¶ÈÎ´´ïµ½100£¬Ôò²»Ö´ĞĞ
-Ö®ºóµÄ´úÂë¡£µ±Ä³´ÎÖ´ĞĞgame_loadÊ±¼ÓÔØ½ø¶È´ïµ½100£¬
-ÔòÍ£Ö¹game_load_bar£¬²¢ÇÒ¼ÌĞøÖ´ĞĞgame_loadÖĞºóĞøµÄUI
-»æÖÆµÈÔÓÏî£¬È»ºó×ÔĞĞÍ£Ö¹game_load¼ÆÊ±Æ÷£¬ÊÀ½ç¼ÓÔØÍê±Ï¡£
+æµç¨‹è§£é‡Š:æ¸¸æˆåŠ è½½çš„è¿‡ç¨‹
+è¿›å…¥sceneä¹‹åï¼Œé¦–å…ˆè¿›å…¥é»˜è®¤çš„initå‡½æ•°
+åœ¨é»˜è®¤çš„initå‡½æ•°ä¸­ç»˜åˆ¶loadingå­—æ ·ï¼Œç„¶åå¼€å¯ä¸¤ä¸ªè®¡æ—¶å™¨
+game_load:åŠ è½½æ¸¸æˆï¼Œ0.02sæ‰§è¡Œä¸€æ¬¡
+game_load_bar:ä¸æ–­æ›´æ–°åŠ è½½è¿›åº¦ï¼Œ0.02sæ‰§è¡Œä¸€æ¬¡
+åœ¨åŠ è½½è¿‡ç¨‹ä¸­ï¼Œç¬¬ä¸€æ¬¡æ‰§è¡Œgame_loadæ—¶å…ˆç»˜åˆ¶ä¸€éƒ¨åˆ†å¿…è¦çš„
+spriteï¼Œç„¶åå¼€å¯åˆ†æ”¯çº¿ç¨‹game_planet_loadæ¥åŠ è½½planet
+çš„æ•°æ®ã€‚çº¿ç¨‹å¼€å¯åç«‹å³é€€å‡ºgame_loadã€‚
+ä¹‹åæ¯æ¬¡æ‰§è¡Œgame_loadï¼Œè‹¥åŠ è½½è¿›åº¦æœªè¾¾åˆ°100ï¼Œåˆ™ä¸æ‰§è¡Œ
+ä¹‹åçš„ä»£ç ã€‚å½“æŸæ¬¡æ‰§è¡Œgame_loadæ—¶åŠ è½½è¿›åº¦è¾¾åˆ°100ï¼Œ
+åˆ™åœæ­¢game_load_barï¼Œå¹¶ä¸”ç»§ç»­æ‰§è¡Œgame_loadä¸­åç»­çš„UI
+ç»˜åˆ¶ç­‰æ‚é¡¹ï¼Œç„¶åè‡ªè¡Œåœæ­¢game_loadè®¡æ—¶å™¨ï¼Œä¸–ç•ŒåŠ è½½å®Œæ¯•ã€‚
 ************************************************/
 /************************************************
-º¯ÊıÃû:´´½¨scene
-¹¦ÄÜ:´´½¨Ö÷³¡¾°
-±¸×¢:
+å‡½æ•°å:åˆ›å»ºscene
+åŠŸèƒ½:åˆ›å»ºä¸»åœºæ™¯
+å¤‡æ³¨:
 ************************************************/
 Scene* HelloWorld::createScene()
 {
@@ -42,9 +42,9 @@ Scene* HelloWorld::createScene()
 
 // on "init" you need to initialize your instance
 /************************************************
-º¯ÊıÃû:Ö÷³¡¾°³õÊ¼»¯º¯Êı
-¹¦ÄÜ:³õÊ¼»¯Ö÷³¡¾°
-±¸×¢:
+å‡½æ•°å:ä¸»åœºæ™¯åˆå§‹åŒ–å‡½æ•°
+åŠŸèƒ½:åˆå§‹åŒ–ä¸»åœºæ™¯
+å¤‡æ³¨:
 ************************************************/
 bool HelloWorld::init()
 {
@@ -66,18 +66,18 @@ bool HelloWorld::init()
 		origin.y + visibleSize.height/2));
 	this->addChild(game_load_label, 6);
 	loading_flag = false;
-	schedule(schedule_selector(HelloWorld::game_load), 0.02f);//¼ÓÔØÓÎÏ·
-	schedule(schedule_selector(HelloWorld::game_load_bar), 0.02f);//¸üĞÂ¼ÓÔØ½ø¶ÈÌõ
+	schedule(schedule_selector(HelloWorld::game_load), 0.02f);//åŠ è½½æ¸¸æˆ
+	schedule(schedule_selector(HelloWorld::game_load_bar), 0.02f);//æ›´æ–°åŠ è½½è¿›åº¦æ¡
     return true;
 }
 /************************************************
-º¯ÊıÃû:ÓÎÏ·ÊÂ¼ş´¦Àí
-¹¦ÄÜ:ÓÃÓÚ´¦ÀíÓÎÏ·¹ı³ÌÖĞµÄÊÂ¼ş
-±¸×¢:20msÖ´ĞĞÒ»´Î
+å‡½æ•°å:æ¸¸æˆäº‹ä»¶å¤„ç†
+åŠŸèƒ½:ç”¨äºå¤„ç†æ¸¸æˆè¿‡ç¨‹ä¸­çš„äº‹ä»¶
+å¤‡æ³¨:20msæ‰§è¡Œä¸€æ¬¡
 ************************************************/
 void HelloWorld::game_processor(float dt)
 {
-	//ËÄ¸ö·½Ïò·Ö±ğÅĞ¶ÏÊÇ·ñ°´ÏÂ°´¼ü£¬¼ÆËãÉãÏñ»úµÄ×ø±êÆ«ÒÆÁ¿
+	//å››ä¸ªæ–¹å‘åˆ†åˆ«åˆ¤æ–­æ˜¯å¦æŒ‰ä¸‹æŒ‰é”®ï¼Œè®¡ç®—æ‘„åƒæœºçš„åæ ‡åç§»é‡
 	for (int i = 0; i <= 3; i++)
 	{
 		if (keygroup_A_pressed[i])
@@ -86,10 +86,10 @@ void HelloWorld::game_processor(float dt)
 		}
 	}
 	label->setString(int_2_string(camera.location.x) + "," + int_2_string(camera.location.y));//debug
-	//ÒÔÏÂÊÇ¹ØÓÚµØÍ¼×óÓÒÑ­»·µÄ´úÂë
+	//ä»¥ä¸‹æ˜¯å…³äºåœ°å›¾å·¦å³å¾ªç¯çš„ä»£ç 
 	int world_width = world.planet.get_chunk_size().x*length_of_block_size*picture_length;
 	int reset_camera = -1 * UI_block.size()*picture_length - 3* picture_length;
-	//over_map_flag=true±íÊ¾cameraÒÑ¾­µ½ÁËÕıÈ·µÄÎ»ÖÃ£¬ËùÓĞ·½¿é¶¼²»ÔÙ½èÓÃµØÍ¼ÁíÒ»¶ËµÄ¡£
+	//over_map_flag=trueè¡¨ç¤ºcameraå·²ç»åˆ°äº†æ­£ç¡®çš„ä½ç½®ï¼Œæ‰€æœ‰æ–¹å—éƒ½ä¸å†å€Ÿç”¨åœ°å›¾å¦ä¸€ç«¯çš„ã€‚
 	bool over_map_flag = false;
 	if (camera.location.x < reset_camera)
 	{
@@ -114,36 +114,36 @@ void HelloWorld::game_processor(float dt)
 	}
 }
 /************************************************
-º¯ÊıÃû:UI´òÓ¡Ïß³Ì
-¹¦ÄÜ:ÓÃÓÚË¢ĞÂUIÏÔÊ¾
-±¸×¢:20msÔËĞĞÒ»´Î,FPS=50
+å‡½æ•°å:UIæ‰“å°çº¿ç¨‹
+åŠŸèƒ½:ç”¨äºåˆ·æ–°UIæ˜¾ç¤º
+å¤‡æ³¨:20msè¿è¡Œä¸€æ¬¡,FPS=50
 ************************************************/
 void HelloWorld::UI_printer(float dt)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-	//¸üĞÂ·½¿éÎ»ÖÃ
+	//æ›´æ–°æ–¹å—ä½ç½®
 	for (int i = 0; i < UI_block.size(); i++)
 	{
 		for (int j = 0; j < UI_block[i].size(); j++)
 		{
 			Vec2 __position = UI_block[i][j].get_position();
-			//ÊÇ·ñ×ªÒÆµÄ±ê¼Ç
+			//æ˜¯å¦è½¬ç§»çš„æ ‡è®°
 			bool move_flag = false;
-			//UI·½¿éÔ½½ç×ªÒÆ´úÂë
-			//world_chunk_width±íÊ¾µØÍ¼µÄ¿í¶È(chunksÔÚºáÏòµÄÊıÁ¿)
+			//UIæ–¹å—è¶Šç•Œè½¬ç§»ä»£ç 
+			//world_chunk_widthè¡¨ç¤ºåœ°å›¾çš„å®½åº¦(chunksåœ¨æ¨ªå‘çš„æ•°é‡)
 			int world_chunk_width = world.planet.get_chunk_size().x;
-			//UI·½¿é´Ó×ó²àÔ½½ç
+			//UIæ–¹å—ä»å·¦ä¾§è¶Šç•Œ
 			if (__position.x < -3 * picture_length)
 			{
 				move_flag = true;
-				UI_block[i][j].block_index.x += UI_block.size();//ÏòÓÒ×ªÒÆsize¸ö¸ñ×Ó
+				UI_block[i][j].block_index.x += UI_block.size();//å‘å³è½¬ç§»sizeä¸ªæ ¼å­
 				while (UI_block[i][j].block_index.x >length_of_block_size-1)
 				{
 					UI_block[i][j].block_index.x -= length_of_block_size;
 					UI_block[i][j].chunk_location.x++;
 				}
-				//µØÍ¼×óÓÒÔ½½çÑ­»·µÄÅĞ¶¨
+				//åœ°å›¾å·¦å³è¶Šç•Œå¾ªç¯çš„åˆ¤å®š
 				if (UI_block[i][j].is_borrow == -1)
 				{
 					UI_block[i][j].is_borrow = 0;
@@ -155,17 +155,17 @@ void HelloWorld::UI_printer(float dt)
 					UI_block[i][j].is_borrow = 1;
 				}
 			}
-			else //UI·½¿é´ÓÓÒ²àÔ½½ç
+			else //UIæ–¹å—ä»å³ä¾§è¶Šç•Œ
 			if (__position.x > 3 * picture_length + visibleSize.width)
 			{
 				move_flag = true;
-				UI_block[i][j].block_index.x -= UI_block.size();//Ïò×ó×ªÒÆsize¸ö¸ñ×Ó
+				UI_block[i][j].block_index.x -= UI_block.size();//å‘å·¦è½¬ç§»sizeä¸ªæ ¼å­
 				while (UI_block[i][j].block_index.x <0)
 				{
 					UI_block[i][j].block_index.x += length_of_block_size;
 					UI_block[i][j].chunk_location.x--;
 				}
-				//µØÍ¼×óÓÒÔ½½çÑ­»·µÄÅĞ¶¨
+				//åœ°å›¾å·¦å³è¶Šç•Œå¾ªç¯çš„åˆ¤å®š
 				if (UI_block[i][j].is_borrow == 1)
 				{
 					UI_block[i][j].is_borrow = 0;
@@ -177,11 +177,11 @@ void HelloWorld::UI_printer(float dt)
 					UI_block[i][j].is_borrow = -1;
 				}
 			}
-			//UI·½¿é´ÓÏÂ·½Ô½½ç
+			//UIæ–¹å—ä»ä¸‹æ–¹è¶Šç•Œ
 			if (__position.y < -3 * picture_length)
 			{
 				move_flag = true;
-				//ÏòÉÏ×ªÒÆsize¸ö¸ñ×Ó
+				//å‘ä¸Šè½¬ç§»sizeä¸ªæ ¼å­
 				UI_block[i][j].block_index.y += UI_block[i].size();
 				while (UI_block[i][j].block_index.y >length_of_block_size - 1)
 				{
@@ -189,11 +189,11 @@ void HelloWorld::UI_printer(float dt)
 					UI_block[i][j].chunk_location.y++;
 				}
 			}
-			else//UI·½¿é´ÓÉÏ·½Ô½½ç
+			else//UIæ–¹å—ä»ä¸Šæ–¹è¶Šç•Œ
 			if (__position.y > 3 * picture_length + visibleSize.height)
 			{
 				move_flag = true;
-				//ÏòÏÂ×ªÒÆsize¸ö¸ñ×Ó
+				//å‘ä¸‹è½¬ç§»sizeä¸ªæ ¼å­
 				UI_block[i][j].block_index.y -= UI_block[i].size();
 				while (UI_block[i][j].block_index.y <0)
 				{
@@ -203,14 +203,13 @@ void HelloWorld::UI_printer(float dt)
 			}
 			if (move_flag)
 			{
-				UI_block[i][j].set_front_block(world.planet.get_chunk(UI_block[i][j].chunk_location).
-					front_block[UI_block[i][j].block_index.x * length_of_block_size + UI_block[i][j].block_index.y]);
+				UI_block[i][j].set_front_block(world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index));
 				UI_block[i][j].set_mid_block(world.planet.get_chunk(UI_block[i][j].chunk_location).
 					mid_block[UI_block[i][j].block_index.x * length_of_block_size + UI_block[i][j].block_index.y]);
 				UI_block[i][j].set_back_block(world.planet.get_chunk(UI_block[i][j].chunk_location).
 					back_block[UI_block[i][j].block_index.x * length_of_block_size + UI_block[i][j].block_index.y]);
 			}
-			//¼ÆËãUI_blockÔÚÆÁÄ»ÉÏµÄÆ«ÒÆ×ø±ê
+			//è®¡ç®—UI_blockåœ¨å±å¹•ä¸Šçš„åç§»åæ ‡
 			__position.x = UI_block[i][j].chunk_location.x*length_of_block_size*picture_length
 				+ UI_block[i][j].block_index.x * picture_length - camera.location.x;
 			__position.y = UI_block[i][j].chunk_location.y*length_of_block_size*picture_length
@@ -222,71 +221,70 @@ void HelloWorld::UI_printer(float dt)
 	}
 }
 /************************************************
-º¯ÊıÃû:UI´¦ÀíÆ÷³õÊ¼»¯º¯Êı
-¹¦ÄÜ:ÓÃÓÚ³õÊ¼»¯¸÷ÏîÓëUI´¦ÀíÓĞ¹ØµÄÊÂ¼ş
-±¸×¢:½á¹¹ÍêÉÆºó½«´Ó´æµµ¶ÁÈ¡³õÊ¼Öµ
+å‡½æ•°å:UIå¤„ç†å™¨åˆå§‹åŒ–å‡½æ•°
+åŠŸèƒ½:ç”¨äºåˆå§‹åŒ–å„é¡¹ä¸UIå¤„ç†æœ‰å…³çš„äº‹ä»¶
+å¤‡æ³¨:ç»“æ„å®Œå–„åå°†ä»å­˜æ¡£è¯»å–åˆå§‹å€¼
 ************************************************/
 void HelloWorld::UI_processor_init()
 {
-	//ÉèÖÃÉãÏñ»ú×ø±êÓÚÔ­µã
+	//è®¾ç½®æ‘„åƒæœºåæ ‡äºåŸç‚¹
 	camera.location = Vec2(300, world.planet.sea_level * picture_length);
-	//³õÊ¼»¯UIÏÔÊ¾·½¿é
-	UI_block.resize(36);//ÆÁÄ»ÄÚ32¸ö£¬×óÓÒ¸÷Á½¸ö
+	//åˆå§‹åŒ–UIæ˜¾ç¤ºæ–¹å—
+	UI_block.resize(36);//å±å¹•å†…32ä¸ªï¼Œå·¦å³å„ä¸¤ä¸ª
 	for (int i = 0; i < UI_block.size(); i++)
 	{
-		UI_block[i].resize(28);//ÆÁÄ»ÄÚ24¸ö£¬ÉÏÏÂ¸÷Á½¸ö
+		UI_block[i].resize(28);//å±å¹•å†…24ä¸ªï¼Œä¸Šä¸‹å„ä¸¤ä¸ª
 	}
-	//Ã¶¾ÙÃ¿¸öUI·½¿é£¬²¢³õÊ¼»¯
+	//æšä¸¾æ¯ä¸ªUIæ–¹å—ï¼Œå¹¶åˆå§‹åŒ–
 	for (int i = 0; i < UI_block.size(); i++)
 	{
 		for (int j = 0; j < UI_block[i].size(); j++)
 		{
 			UI_block[i][j].create_sprite();
-			//³õÊ¼Ê±Éè¶¨·½¿é·Ç½èÓÃ
+			//åˆå§‹æ—¶è®¾å®šæ–¹å—éå€Ÿç”¨
 			UI_block[i][j].is_borrow = 0;
-			//locationÊÇ¾ø¶ÔÏñËØ×ø±ê£¬positionÊÇÆÁÄ»ÏñËØ×ø±ê i-2ÊÇÓÉÓÚÆÁÄ»ÍâÓĞÁ½¸ö·½¿é
+			//locationæ˜¯ç»å¯¹åƒç´ åæ ‡ï¼Œpositionæ˜¯å±å¹•åƒç´ åæ ‡ i-2æ˜¯ç”±äºå±å¹•å¤–æœ‰ä¸¤ä¸ªæ–¹å—
 			Vec2 UI_block_position = Vec2((i - 2)*picture_length, (j - 2)*picture_length);
 			Vec2l UI_block_location;
-			//chunk_locationÊÇËùÊôchunkÔÚplanetÉÏµÄ¾ø¶Ô×ø±ê£¬block_locationÊÇËùÊôblockÔÚchunkÖĞµÄÆ«ÒÆ×ø±ê
+			//chunk_locationæ˜¯æ‰€å±chunkåœ¨planetä¸Šçš„ç»å¯¹åæ ‡ï¼Œblock_locationæ˜¯æ‰€å±blockåœ¨chunkä¸­çš„åç§»åæ ‡
 			Vec2i UI_block_chunk_location;
 			Vec2i UI_block_block_location;
-			//ÒÀ´Î¼ÆËã³ö¸÷¸ölocation£¬À´ÅĞ¶ÏÏÔÊ¾µÄÊÇÄÄ¸ö·½¿é¡£
+			//ä¾æ¬¡è®¡ç®—å‡ºå„ä¸ªlocationï¼Œæ¥åˆ¤æ–­æ˜¾ç¤ºçš„æ˜¯å“ªä¸ªæ–¹å—ã€‚
 			UI_block_location.x = camera.location.x + (i - 2)*picture_length;
 			UI_block_location.y = camera.location.y + (j - 2)*picture_length;
-			//´¦ÀíµØÍ¼×óÓÒÑ­»·
-			//world_width´ú±íµØÍ¼µÄ¿í¶È(ÏñËØÊı)
+			//å¤„ç†åœ°å›¾å·¦å³å¾ªç¯
+			//world_widthä»£è¡¨åœ°å›¾çš„å®½åº¦(åƒç´ æ•°)
 			int world_width = world.planet.get_chunk_size().x*length_of_block_size*picture_length;
 			if (UI_block_location.x < 0)
 			{
-				//´Ó×ó²àÔ½½ç£¬Òò´Ë½èÓÃµØÍ¼×îÓÒ±ßµÄ·½¿éÀ´ÏÔÊ¾
+				//ä»å·¦ä¾§è¶Šç•Œï¼Œå› æ­¤å€Ÿç”¨åœ°å›¾æœ€å³è¾¹çš„æ–¹å—æ¥æ˜¾ç¤º
 				UI_block[i][j].is_borrow = -1;
 				UI_block_location.x += world_width;
 			}
 			else
 			if (UI_block_location.x >= world_width)
 			{
-				//´ÓÓÒ²àÔ½½ç£¬Òò´Ë½èÓÃµØÍ¼×î×ó±ßµÄ·½¿éÀ´ÏÔÊ¾
+				//ä»å³ä¾§è¶Šç•Œï¼Œå› æ­¤å€Ÿç”¨åœ°å›¾æœ€å·¦è¾¹çš„æ–¹å—æ¥æ˜¾ç¤º
 				UI_block[i][j].is_borrow = 1;
 				UI_block_location.x -= world_width;
 			}
-			//¼ÆËãUI·½¿éËù¶ÔÓ¦µÄchunkµÄÎ»ÖÃ
+			//è®¡ç®—UIæ–¹å—æ‰€å¯¹åº”çš„chunkçš„ä½ç½®
 			UI_block_chunk_location.x = UI_block_location.x / (length_of_block_size*picture_length);
 			UI_block_chunk_location.y = UI_block_location.y / (length_of_block_size*picture_length);
 			if (UI_block_location.x < 0)UI_block_chunk_location.x -= 1;
 			if (UI_block_location.y < 0)UI_block_chunk_location.y -= 1;
-			//¼ÆËãÆ«ÒÆÏñËØ×ø±ê£¬ÓÉÓÚÉÏÒ»²½ÏòÏÂÈ¡Õû£¬ÓÚÊÇ×÷²îµÃ³öÆ«ÒÆ×ø±ê
+			//è®¡ç®—åç§»åƒç´ åæ ‡ï¼Œç”±äºä¸Šä¸€æ­¥å‘ä¸‹å–æ•´ï¼Œäºæ˜¯ä½œå·®å¾—å‡ºåç§»åæ ‡
 			UI_block_block_location.x = UI_block_location.x - 
 				UI_block_chunk_location.x*(length_of_block_size*picture_length);
 			UI_block_block_location.y = UI_block_location.y - 
 				UI_block_chunk_location.y*(length_of_block_size*picture_length);
-			//¸ù¾İÆ«ÒÆÏñËØ×ø±ê¼ÆËãÆ«ÒÆ×ø±ê
+			//æ ¹æ®åç§»åƒç´ åæ ‡è®¡ç®—åç§»åæ ‡
 			UI_block_block_location.x /= picture_length;
 			UI_block_block_location.y /= picture_length;
-			//ÕÒµ½²¢ÉèÖÃ·½¿é
+			//æ‰¾åˆ°å¹¶è®¾ç½®æ–¹å—
 			UI_block[i][j].chunk_location = UI_block_chunk_location;
 			UI_block[i][j].block_index = UI_block_block_location;
-			UI_block[i][j].set_front_block(world.planet.get_chunk(UI_block_chunk_location).
-				front_block[UI_block_block_location.x * length_of_block_size + UI_block_block_location.y]);
+			UI_block[i][j].set_front_block(world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index));
 			UI_block[i][j].set_mid_block(world.planet.get_chunk(UI_block_chunk_location).
 				mid_block[UI_block_block_location.x * length_of_block_size + UI_block_block_location.y]);
 			UI_block[i][j].set_back_block(world.planet.get_chunk(UI_block_chunk_location).
@@ -301,65 +299,111 @@ void HelloWorld::UI_processor_init()
 	}
 }
 /************************************************
-º¯ÊıÃû:¼üÅÌÊÍ·ÅÊÂ¼ş
-¹¦ÄÜ:¼üÅÌÊÍ·ÅÊ±´¥·¢£¬Ö´ĞĞÒ»ÏµÁĞ¶¯×÷
-±¸×¢:ÎŞ
+å‡½æ•°å:é”®ç›˜é‡Šæ”¾äº‹ä»¶
+åŠŸèƒ½:é”®ç›˜é‡Šæ”¾æ—¶è§¦å‘ï¼Œæ‰§è¡Œä¸€ç³»åˆ—åŠ¨ä½œ
+å¤‡æ³¨:æ— 
 ************************************************/
 void HelloWorld::on_key_released(EventKeyboard::KeyCode keyCode, Event* event)
 {
-	if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW)  //·½ÏòÉÏ¼ü
+	if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW)  //æ–¹å‘ä¸Šé”®
 		keygroup_B_pressed[0] = false;
-	if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW)  //·½ÏòÏÂ¼ü
+	if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW)  //æ–¹å‘ä¸‹é”®
 		keygroup_B_pressed[1] = false;
-	if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW)  //·½Ïò×ó¼ü
+	if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW)  //æ–¹å‘å·¦é”®
 		keygroup_B_pressed[2] = false;
-	if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW)  //·½ÏòÓÒ¼ü
+	if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW)  //æ–¹å‘å³é”®
 		keygroup_B_pressed[3] = false;
-	if (keyCode == EventKeyboard::KeyCode::KEY_W)  //w¼ü
+	if (keyCode == EventKeyboard::KeyCode::KEY_W)  //wé”®
 		keygroup_A_pressed[0] = false;
-	if (keyCode == EventKeyboard::KeyCode::KEY_S)  //s¼ü
+	if (keyCode == EventKeyboard::KeyCode::KEY_S)  //sé”®
 		keygroup_A_pressed[1] = false;
-	if (keyCode == EventKeyboard::KeyCode::KEY_A)  //a¼ü
+	if (keyCode == EventKeyboard::KeyCode::KEY_A)  //aé”®
 		keygroup_A_pressed[2] = false;
-	if (keyCode == EventKeyboard::KeyCode::KEY_D)  //d¼ü
+	if (keyCode == EventKeyboard::KeyCode::KEY_D)  //dé”®
 		keygroup_A_pressed[3] = false;
 }
 /************************************************
-º¯ÊıÃû:¼üÅÌ°´ÏÂÊÂ¼ş
-¹¦ÄÜ:¼üÅÌ°´ÏÂÊ±´¥·¢£¬Ö´ĞĞÒ»ÏµÁĞ¶¯×÷
-±¸×¢:ÎŞ
+å‡½æ•°å:é”®ç›˜æŒ‰ä¸‹äº‹ä»¶
+åŠŸèƒ½:é”®ç›˜æŒ‰ä¸‹æ—¶è§¦å‘ï¼Œæ‰§è¡Œä¸€ç³»åˆ—åŠ¨ä½œ
+å¤‡æ³¨:æ— 
 ************************************************/
 void HelloWorld::on_key_pressed(EventKeyboard::KeyCode keyCode, Event* event)
 {
-	if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW)  //·½ÏòÉÏ¼ü
+	if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW)  //æ–¹å‘ä¸Šé”®
 		keygroup_B_pressed[0] = true;
-	if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW)  //·½ÏòÏÂ¼ü
+	if (keyCode == EventKeyboard::KeyCode::KEY_DOWN_ARROW)  //æ–¹å‘ä¸‹é”®
 		keygroup_B_pressed[1] = true;
-	if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW)  //·½Ïò×ó¼ü
+	if (keyCode == EventKeyboard::KeyCode::KEY_LEFT_ARROW)  //æ–¹å‘å·¦é”®
 		keygroup_B_pressed[2] = true;
-	if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW)  //·½ÏòÓÒ¼ü
+	if (keyCode == EventKeyboard::KeyCode::KEY_RIGHT_ARROW)  //æ–¹å‘å³é”®
 		keygroup_B_pressed[3] = true;
-	if (keyCode == EventKeyboard::KeyCode::KEY_W)  //w¼ü
+	if (keyCode == EventKeyboard::KeyCode::KEY_W)  //wé”®
 		keygroup_A_pressed[0] = true;
-	if (keyCode == EventKeyboard::KeyCode::KEY_S)  //s¼ü
+	if (keyCode == EventKeyboard::KeyCode::KEY_S)  //sé”®
 		keygroup_A_pressed[1] = true;
-	if (keyCode == EventKeyboard::KeyCode::KEY_A)  //a¼ü
+	if (keyCode == EventKeyboard::KeyCode::KEY_A)  //aé”®
 		keygroup_A_pressed[2] = true;
-	if (keyCode == EventKeyboard::KeyCode::KEY_D)  //d¼ü
+	if (keyCode == EventKeyboard::KeyCode::KEY_D)  //dé”®
 		keygroup_A_pressed[3] = true;
 }
 /************************************************
-º¯ÊıÃû:ÓÎÏ·¼ÓÔØ
-¹¦ÄÜ:ÓÃÓÚ³õÊ¼»¯¸÷ÏîÄÚÈİ£¬°üÀ¨¼ÓÔØÊÀ½ç£¬³õÊ¼»¯ÏÔÊ¾µÈ
-±¸×¢:
+å‡½æ•°å:è§¦æ‘¸å¼€å§‹äº‹ä»¶
+åŠŸèƒ½:è§¦æ‘¸å¼€å§‹æ—¶è§¦å‘ï¼Œæ‰§è¡Œä¸€ç³»åˆ—åŠ¨ä½œ
+å¤‡æ³¨:æ— 
+************************************************/
+bool HelloWorld::on_touch_began(Touch * touch, Event * event)
+{
+	Vec2 mouse_position = touch->getLocation();
+	CCLOG("%d,%d",mouse_position.x,mouse_position.y);
+	for (int i = 0; i < UI_block.size(); i++)
+	{
+		for (int j = 0; j < UI_block[i].size(); j++)
+		{
+			if
+			(   mouse_position.x <= UI_block[i][j].get_position().x + picture_length / 2
+				&& mouse_position.x > UI_block[i][j].get_position().x - picture_length / 2
+				&& mouse_position.y <= UI_block[i][j].get_position().y + picture_length / 2
+				&& mouse_position.y > UI_block[i][j].get_position().y - picture_length / 2
+			)
+			{
+				if (world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index).type == FrontBlockType::stone)
+				{
+					world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index).type = FrontBlockType::air;
+					world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index).enabled_touch = false;
+				}
+				else 
+				if (world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index).type == FrontBlockType::air)
+				{
+					world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index).type = FrontBlockType::stone;
+					world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index).enabled_touch = true;
+				}
+				UI_block[i][j].set_front_block(world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index));
+				return true;
+			}
+		}
+	}
+	return true;
+}
+/************************************************
+å‡½æ•°å:è§¦æ‘¸ç»“æŸäº‹ä»¶
+åŠŸèƒ½:è§¦æ‘¸ç»“æŸæ—¶è§¦å‘ï¼Œæ‰§è¡Œä¸€ç³»åˆ—åŠ¨ä½œ
+å¤‡æ³¨:æ— 
+************************************************/
+void HelloWorld::on_touch_ended(Touch * touch, Event * event)
+{
+}
+/************************************************
+å‡½æ•°å:æ¸¸æˆåŠ è½½
+åŠŸèƒ½:ç”¨äºåˆå§‹åŒ–å„é¡¹å†…å®¹ï¼ŒåŒ…æ‹¬åŠ è½½ä¸–ç•Œï¼Œåˆå§‹åŒ–æ˜¾ç¤ºç­‰
+å¤‡æ³¨:
 ************************************************/
 void HelloWorld::game_load(float dt)
 {
-	//Èç¹û¼ÓÔØ¹ıÒ»±éÁË¾Í²»ÄÜÔÙ¼ÓÔØ
+	//å¦‚æœåŠ è½½è¿‡ä¸€éäº†å°±ä¸èƒ½å†åŠ è½½
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	if (!loading_flag)
 	{
-		Size visibleSize = Director::getInstance()->getVisibleSize();
-		Vec2 origin = Director::getInstance()->getVisibleOrigin();
 		label = Label::createWithTTF("Hello MilkyWorld", "fonts/Marker Felt.ttf", 24);
 		// position the label on the center of the screen
 		label->setPosition(Vec2(origin.x + visibleSize.width / 2,
@@ -376,12 +420,12 @@ void HelloWorld::game_load(float dt)
 		world.planet.sea_level = 768;
 		world.planet.set_terrain_seed((unsigned)time(0));
 		world_vars::game_load_schedule = 0;
-		//´´½¨Ò»¸ö·ÖÖ§Ïß³ÌÓÃÀ´¼ÓÔØÊÀ½ç£¬»Øµ÷µ½game_loadº¯ÊıÀï
+		//åˆ›å»ºä¸€ä¸ªåˆ†æ”¯çº¿ç¨‹ç”¨æ¥åŠ è½½ä¸–ç•Œï¼Œå›è°ƒåˆ°game_loadå‡½æ•°é‡Œ
 		thread game_load_thread(&HelloWorld::game_planet_load, this);
 		game_load_thread.detach();
 		loading_flag = true;
 	}
-	//Ã»ÓĞ¼ÓÔØºÃ¾ÍÍË³ö,µÈ´ıÏÂÒ»´ÎÖ´ĞĞµ½Õâ¸öº¯ÊıÔÙÅĞ¶Ï
+	//æ²¡æœ‰åŠ è½½å¥½å°±é€€å‡º,ç­‰å¾…ä¸‹ä¸€æ¬¡æ‰§è¡Œåˆ°è¿™ä¸ªå‡½æ•°å†åˆ¤æ–­
 	if (world_vars::game_load_schedule < 100)return;
 	this->unschedule(schedule_selector(HelloWorld::game_load_bar));
 	//while (world_vars::game_load_schedule < 100);
@@ -409,29 +453,39 @@ void HelloWorld::game_load(float dt)
 	key_listener->onKeyReleased = CC_CALLBACK_2(HelloWorld::on_key_released, this);
 	key_listener->onKeyPressed = CC_CALLBACK_2(HelloWorld::on_key_pressed, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(key_listener, this);
+	mouse_listener = EventListenerTouchOneByOne::create();
+	mouse_listener->setEnabled(true);
+	mouse_listener->onTouchBegan = CC_CALLBACK_2(HelloWorld::on_touch_began, this);
+	mouse_listener->onTouchEnded = CC_CALLBACK_2(HelloWorld::on_touch_ended, this);
+	mouse_listener->setSwallowTouches(true);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(mouse_listener, this);
 	back_ground->setZOrder(0);
-	game_load_label->setVisible(false);
+	//game_load_label->setVisible(false);
+	game_load_label->setString("Milkyworld Alpha0.0.1\nCopyright 2016 orangebird");
+	game_load_label->setScale(0.5);
+	game_load_label->setPosition(Vec2(origin.x + visibleSize.width / 2,
+		origin.y + visibleSize.height - game_load_label->getContentSize().height));
 	this->unschedule(schedule_selector(HelloWorld::game_load));
-	schedule(schedule_selector(HelloWorld::UI_printer), 0.02f);//20msË¢ĞÂÆÁÄ»Ò»´Î,FPS=50
-	schedule(schedule_selector(HelloWorld::game_processor), 0.02f);//20ms´¦ÀíÒ»´ÎÓÎÏ·ÊÂ¼ş
+	schedule(schedule_selector(HelloWorld::UI_printer), 0.02f);//20msåˆ·æ–°å±å¹•ä¸€æ¬¡,FPS=50
+	schedule(schedule_selector(HelloWorld::game_processor), 0.02f);//20mså¤„ç†ä¸€æ¬¡æ¸¸æˆäº‹ä»¶
 }
 /************************************************
-º¯ÊıÃû:ÓÎÏ·¼ÓÔØ½ø¶ÈÌõ
-¹¦ÄÜ:ÓÃÓÚ¸üĞÂ¼ÓÔØ½ø¶ÈÌõ
-±¸×¢:
+å‡½æ•°å:æ¸¸æˆåŠ è½½è¿›åº¦æ¡
+åŠŸèƒ½:ç”¨äºæ›´æ–°åŠ è½½è¿›åº¦æ¡
+å¤‡æ³¨:
 ************************************************/
 void HelloWorld::game_load_bar(float dt)
 {
-	game_load_label->setString("World creating..." + int_2_string(world_vars::game_load_schedule) + "%");
+	game_load_label->setString("Milkyworld Alpha0.0.1,World creating..." + int_2_string(world_vars::game_load_schedule) + "%");
 }
 /************************************************
-º¯ÊıÃû:ÊÀ½ç¼ÓÔØ
-¹¦ÄÜ:¼ÓÔØ/Éú³ÉÊÀ½ç
-±¸×¢:·ÖÖ§Ïß³Ìµ÷ÓÃ
+å‡½æ•°å:ä¸–ç•ŒåŠ è½½
+åŠŸèƒ½:åŠ è½½/ç”Ÿæˆä¸–ç•Œ
+å¤‡æ³¨:åˆ†æ”¯çº¿ç¨‹è°ƒç”¨
 ************************************************/
 void HelloWorld::game_planet_load()
 {
-	//¼ÓÔØµØĞÎ
+	//åŠ è½½åœ°å½¢
 	world.planet.generate_terrain();
 	world_vars::game_load_schedule = 100;
 }

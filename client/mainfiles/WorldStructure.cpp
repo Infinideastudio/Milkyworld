@@ -14,6 +14,12 @@ void Chunk::set_front_block(Vec2i position, FrontBlock _front_block)
 	int _x = position.x * length_of_block_size + position.y;
 	front_block[_x] = _front_block;
 }
+//获取前景方块
+FrontBlock& Chunk::get_front_block(Vec2i location)
+{
+	int _x = location.x * length_of_block_size + location.y;
+	return front_block[_x];
+}
 //设置chunk在地图上的绝对坐标
 void Chunk::set_location(Vec2i p)
 {

@@ -27,10 +27,14 @@ public:
 	bool loading_flag;
 	//按键监听器
 	EventListenerKeyboard *key_listener;
+	//单点触摸监听器
+	EventListenerTouchOneByOne *mouse_listener;
 	//创建scene函数
     static cocos2d::Scene* createScene();
 	//初始化scene函数
     virtual bool init();
+	bool on_touch_began(cocos2d::Touch* touch, cocos2d::Event* event);
+	void on_touch_ended(cocos2d::Touch* touch, cocos2d::Event* event);
 	virtual void on_key_released(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	virtual void on_key_pressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
     // a selector callback
