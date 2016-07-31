@@ -606,7 +606,7 @@ void HelloWorld::game_load(float dt)
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(mouse_listener, this);
 	back_ground->setZOrder(0);
 	//game_load_label->setVisible(false);
-	game_load_label->setString("Milkyworld Alpha0.0.1\nCopyright 2016 orangebird");
+	game_load_label->setString("Milkyworld Alpha0.0.1\nCopyright 2016 Infinideas");
 	game_load_label->setScale(0.5);
 	game_load_label->setPosition(Vec2(origin.x + visibleSize.width / 2,
 		origin.y + visibleSize.height - game_load_label->getContentSize().height));
