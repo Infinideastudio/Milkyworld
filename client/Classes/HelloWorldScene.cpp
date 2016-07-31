@@ -77,14 +77,141 @@ bool HelloWorld::init()
 ************************************************/
 void HelloWorld::game_processor(float dt)
 {
-	//四个方向分别判断是否按下按键，计算摄像机的坐标偏移量
-	for (int i = 0; i <= 3; i++)
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	Vec2 new_location = Vec2(0, 0);//位移变化量
+	//四个方向分别判断是否按下按键，计算人物速度
+	if (keygroup_A_pressed[2])
+		player.velocity.x = -6*picture_length;
+	else if (keygroup_A_pressed[3])
+		player.velocity.x = 6*picture_length;
+	else
+		player.velocity.x = 0;
+	//跳跃
+	if (keygroup_C_pressed[0] && player.touch_ground)
 	{
-		if (keygroup_A_pressed[i])
-		{
-			camera.location += delta[i] * 20;
-		}
+		player.velocity.y = 7 * picture_length;
 	}
+	//关于重力的代码
+	if (player.enabled_gravity)
+	{
+		player.velocity.y += world.planet.gravitational_acceleration*dt;
+	}
+	//碰撞检测和跳跃
+	new_location = player.location + player.velocity * dt;
+	Vec2i up_point = Vec2i(new_location.x - camera.location.x +
+		(new_location.x - camera.location.x<0)*world.planet.get_chunk_size().x*length_of_block_size*picture_length, new_location.y + player.size.y / 2 - camera.location.y);
+	Vec2i down_point = Vec2i(new_location.x - camera.location.x +
+		(new_location.x - camera.location.x<0)*world.planet.get_chunk_size().x*length_of_block_size*picture_length, new_location.y - player.size.y / 2 - camera.location.y);
+	Vec2i left_point = Vec2i(new_location.x - player.size.x / 2 - camera.location.x +
+		(new_location.x - camera.location.x<0)*world.planet.get_chunk_size().x*length_of_block_size*picture_length, new_location.y - camera.location.y);
+	Vec2i right_point = Vec2i(new_location.x + player.size.x / 2 - camera.location.x +
+		(new_location.x - camera.location.x<0)*world.planet.get_chunk_size().x*length_of_block_size*picture_length, new_location.y - camera.location.y);
+	Vec2i up_UI_block, down_UI_block, left_UI_block, right_UI_block;
+	bool break_flag=false;
+	for (int i = 0; i < UI_block.size(); i++)
+	{
+		for (int j = 0; j < UI_block[i].size(); j++)
+		{
+			Vec2 position = UI_block[i][j].get_position();
+			if (up_point.x <= position.x + picture_length / 2
+				&& up_point.x > position.x - picture_length / 2
+				&& up_point.y <= position.y + picture_length / 2
+				&& up_point.y > position.y - picture_length / 2)
+			{
+				up_point = UI_block[i][j].chunk_location *length_of_block_size + UI_block[i][j].block_index;
+				up_UI_block = Vec2i(i, j);
+				break_flag = true;
+				break;
+			}	
+		}
+		if (break_flag)break;
+	}
+	break_flag = false;
+	for (int i = 0; i < UI_block.size(); i++)
+	{
+		for (int j = 0; j < UI_block[i].size(); j++)
+		{
+			Vec2 position = UI_block[i][j].get_position();
+			if (down_point.x <= position.x + picture_length / 2
+				&& down_point.x > position.x - picture_length / 2
+				&& down_point.y <= position.y + picture_length / 2
+				&& down_point.y > position.y - picture_length / 2)
+			{
+				down_point = UI_block[i][j].chunk_location *length_of_block_size + UI_block[i][j].block_index;
+				down_UI_block = Vec2i(i, j);
+				break_flag = true;
+				break;
+			}
+		}
+		if (break_flag)break;
+	}
+	break_flag = false;
+	for (int i = 0; i < UI_block.size(); i++)
+	{
+		for (int j = 0; j < UI_block[i].size(); j++)
+		{
+			Vec2 position = UI_block[i][j].get_position();
+			if (left_point.x <= position.x + picture_length / 2
+				&& left_point.x > position.x - picture_length / 2
+				&& left_point.y <= position.y + picture_length / 2
+				&& left_point.y > position.y - picture_length / 2)
+			{
+				left_point = UI_block[i][j].chunk_location *length_of_block_size + UI_block[i][j].block_index;
+				left_UI_block = Vec2i(i, j);
+				break_flag = true;
+				break;
+			}
+		}
+		if (break_flag)break;
+	}
+	break_flag = false;
+	for (int i = 0; i < UI_block.size(); i++)
+	{
+		for (int j = 0; j < UI_block[i].size(); j++)
+		{
+			Vec2 position = UI_block[i][j].get_position();
+			if (right_point.x <= position.x + picture_length / 2
+				&& right_point.x > position.x - picture_length / 2
+				&& right_point.y <= position.y + picture_length / 2
+				&& right_point.y > position.y - picture_length / 2)
+			{
+				right_point = UI_block[i][j].chunk_location *length_of_block_size + UI_block[i][j].block_index;
+				right_UI_block = Vec2i(i, j);
+				break_flag = true;
+				break;
+			}
+		}
+		if (break_flag)break;
+	}
+	//跳跃
+	if (world.planet.front_block(up_point).enabled_touch)
+	{
+		if (player.velocity.y>0)player.velocity.y = 0;
+		new_location.y = camera.location.y + UI_block[up_UI_block.x][up_UI_block.y].get_position().y - player.size.y/2 - picture_length / 2-1;
+	}
+	if (world.planet.front_block(down_point).enabled_touch)
+	{
+		if (player.velocity.y<0)player.velocity.y = 0;
+		new_location.y = camera.location.y + UI_block[down_UI_block.x][down_UI_block.y].get_position().y + player.size.y/2 + picture_length / 2+1;
+		player.touch_ground = true;
+	}
+	else
+	{
+		player.touch_ground = false;
+	}
+	if (world.planet.front_block(left_point).enabled_touch)
+	{
+		if (player.velocity.x<0)player.velocity.x = 0;
+		new_location.x = camera.location.x + UI_block[left_UI_block.x][left_UI_block.y].get_position().x + player.size.x/2 + picture_length / 2+1;
+	}
+	if (world.planet.front_block(right_point).enabled_touch)
+	{
+		if (player.velocity.x>0)player.velocity.x = 0;
+		new_location.x = camera.location.x + UI_block[right_UI_block.x][right_UI_block.y].get_position().x - player.size.x/2 - picture_length / 2-1;
+	}
+	player.location = new_location;
+	camera.location = player.location - visibleSize / 2;
 	label->setString(int_2_string(camera.location.x) + "," + int_2_string(camera.location.y));//debug
 	//以下是关于地图左右循环的代码
 	int world_width = world.planet.get_chunk_size().x*length_of_block_size*picture_length;
@@ -227,8 +354,10 @@ void HelloWorld::UI_printer(float dt)
 ************************************************/
 void HelloWorld::UI_processor_init()
 {
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	//设置摄像机坐标于原点
-	camera.location = Vec2(300, world.planet.sea_level * picture_length);
+	camera.location = player.location - Vec2(visibleSize.width / 2, visibleSize.height / 2);
 	//初始化UI显示方块
 	UI_block.resize(36);//屏幕内32个，左右各两个
 	for (int i = 0; i < UI_block.size(); i++)
@@ -297,6 +426,11 @@ void HelloWorld::UI_processor_init()
 			this->addChild(UI_block[i][j].back_sprite, 1);
 		}
 	}
+	//加载玩家
+	player.size = Vec2i(20,45);
+	player.sprite = Sprite::create("texture/mob/player.png");
+	player.sprite->setPosition(visibleSize / 2);
+	this->addChild(player.sprite,5);
 }
 /************************************************
 函数名:键盘释放事件
@@ -321,6 +455,8 @@ void HelloWorld::on_key_released(EventKeyboard::KeyCode keyCode, Event* event)
 		keygroup_A_pressed[2] = false;
 	if (keyCode == EventKeyboard::KeyCode::KEY_D)  //d键
 		keygroup_A_pressed[3] = false;
+	if (keyCode == EventKeyboard::KeyCode::KEY_SPACE)  //space
+		keygroup_C_pressed[0] = false;
 }
 /************************************************
 函数名:键盘按下事件
@@ -345,6 +481,8 @@ void HelloWorld::on_key_pressed(EventKeyboard::KeyCode keyCode, Event* event)
 		keygroup_A_pressed[2] = true;
 	if (keyCode == EventKeyboard::KeyCode::KEY_D)  //d键
 		keygroup_A_pressed[3] = true;
+	if (keyCode == EventKeyboard::KeyCode::KEY_SPACE)  //space
+		keygroup_C_pressed[0] = true;
 }
 /************************************************
 函数名:触摸开始事件
@@ -366,7 +504,7 @@ bool HelloWorld::on_touch_began(Touch * touch, Event * event)
 				&& mouse_position.y > UI_block[i][j].get_position().y - picture_length / 2
 			)
 			{
-				if (world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index).type == FrontBlockType::stone)
+				if (world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index).type == FrontBlockType::dirt)
 				{
 					world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index).type = FrontBlockType::air;
 					world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index).enabled_touch = false;
@@ -374,7 +512,7 @@ bool HelloWorld::on_touch_began(Touch * touch, Event * event)
 				else 
 				if (world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index).type == FrontBlockType::air)
 				{
-					world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index).type = FrontBlockType::stone;
+					world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index).type = FrontBlockType::dirt;
 					world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index).enabled_touch = true;
 				}
 				UI_block[i][j].set_front_block(world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index));
@@ -414,12 +552,19 @@ void HelloWorld::game_load(float dt)
 		keygroup_A_pressed[1] = 0;
 		keygroup_A_pressed[2] = 0;
 		keygroup_A_pressed[3] = 0;
+		keygroup_C_pressed[0] = 0;
+		player.hp = 100;
+		player.defence = 0;
 		world.name = "MILKYWORLD_TEST_2016";
 		world.planet.name = "TEST_PLANET";
 		world.planet.set_chunk_size(Vec2i(1024, 64));
 		world.planet.sea_level = 768;
 		world.planet.set_terrain_seed((unsigned)time(0));
+		world.planet.gravitational_acceleration = -19.6*picture_length;
 		world_vars::game_load_schedule = 0;
+		player.enabled_gravity = true;
+		player.touch_ground = false;
+		player.location = Vec2(300, (world.planet.sea_level+20) * picture_length);
 		//创建一个分支线程用来加载世界，回调到game_load函数里
 		thread game_load_thread(&HelloWorld::game_planet_load, this);
 		game_load_thread.detach();

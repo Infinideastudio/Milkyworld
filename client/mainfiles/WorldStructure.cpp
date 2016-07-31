@@ -165,20 +165,20 @@ void Planet::generate_terrain()
 				if (sea_level = 768)
 					front_block(Vec2i(i, j)).type = FrontBlockType::water;
 				else
-					front_block(Vec2i(i, j)).type = FrontBlockType::stone;
+					front_block(Vec2i(i, j)).type = FrontBlockType::dirt;
 				front_block(Vec2i(i, j)).enabled_touch = true;
 				continue;
 			}
 			else
 			if (j < height||j<sea_level)
 			{
-				front_block(Vec2i(i, j)).type = FrontBlockType::stone;
+				front_block(Vec2i(i, j)).type = FrontBlockType::dirt;
 				front_block(Vec2i(i, j)).enabled_touch = true;
 			}
 			else
 			if (j == height)
 			{
-				front_block(Vec2i(i, j)).type = FrontBlockType::stone;
+				front_block(Vec2i(i, j)).type = FrontBlockType::grass;
 				front_block(Vec2i(i, j)).enabled_touch = true;
 			}
 			else

@@ -74,6 +74,12 @@ public:
 		p.x = x - c.x; p.y = y - c.y;
 		return p;
 	}
+	Vec2l operator *(const long long &c)
+	{
+		Vec2l p;
+		p.x = x * c; p.y = y * c;
+		return p;
+	}
 	bool operator ==(Vec2l const &p)
 	{
 		if (p.x == x&&p.y == y)
@@ -107,6 +113,12 @@ public:
 	{
 		Vec2i p;
 		p.x = x - c.x; p.y = y - c.y;
+		return p;
+	}
+	Vec2i operator *(const int &c)
+	{
+		Vec2i p;
+		p.x = x * c; p.y = y * c;
 		return p;
 	}
 	bool operator ==(Vec2i const &p)

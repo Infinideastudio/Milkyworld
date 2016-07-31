@@ -53,4 +53,17 @@ enum class BackBlockType :ushort
 	dirt,//泥土4
 	grass,//草地5
 };
+/************************************************
+枚举类名:物体类型
+功能:表示物体的类型
+备注:
+************************************************/
+enum class ItemType :ushort
+{
+	vacuum,//真空0
+	rock,//岩石1
+	stone,//圆石2
+	dirt,//泥土3
+	grass,//草地4
+};
 #endif

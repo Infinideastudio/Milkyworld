@@ -33,6 +33,9 @@
     <ClCompile Include="..\Classes\HelloWorldScene.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\mainfiles\WorldMob.cpp">
+      <Filter>src\mainfiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -55,6 +58,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\HelloWorldScene.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\mainfiles\WorldMob.h">
+      <Filter>src\mainfiles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

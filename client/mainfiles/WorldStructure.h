@@ -104,6 +104,8 @@ public:
 	string name;
 	//海平面高度
 	int sea_level;
+	//重力加速度
+	float gravitational_acceleration;
 	//设置地图大小
 	void set_chunk_size(Vec2i _size);
 	//获取地图大小

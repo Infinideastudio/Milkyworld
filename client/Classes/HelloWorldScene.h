@@ -3,6 +3,7 @@
 #include "cocos2d.h"
 #include "mainfiles\WorldStructure.h"
 #include "mainfiles\WorldAlgorithms.h"
+#include "mainfiles\WorldMob.h"
 #include <vector>
 /************************************************
 类名:主场景
@@ -19,10 +20,12 @@ public:
 	Label* label;
 	//加载进度条
 	Label* game_load_label;
+	Player player;
 	//UI处理器初始化函数
 	void UI_processor_init();
 	bool keygroup_A_pressed[4];//wsad
 	bool keygroup_B_pressed[4];//上下左右
+	bool keygroup_C_pressed[1];//space
 	//是否加载中,如果加载中则不能跳转到游戏界面
 	bool loading_flag;
 	//按键监听器
