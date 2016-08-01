@@ -427,7 +427,6 @@ void HelloWorld::UI_processor_init()
 		}
 	}
 	//加载玩家
-	player.size = Vec2i(20,45);
 	player.sprite = Sprite::create("texture/mob/player.png");
 	player.sprite->setPosition(visibleSize / 2);
 	this->addChild(player.sprite,5);
@@ -564,7 +563,8 @@ void HelloWorld::game_load(float dt)
 		world_vars::game_load_schedule = 0;
 		player.enabled_gravity = true;
 		player.touch_ground = false;
-		player.location = Vec2(300, (world.planet.sea_level+20) * picture_length);
+		player.size = Vec2(20,45);
+		player.set_location(Vec2(300, (world.planet.sea_level+20) * picture_length));
 		//创建一个分支线程用来加载世界，回调到game_load函数里
 		thread game_load_thread(&HelloWorld::game_planet_load, this);
 		game_load_thread.detach();

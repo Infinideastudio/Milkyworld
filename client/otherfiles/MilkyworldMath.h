@@ -1,5 +1,41 @@
 #ifndef __MILKYWORLDMATH_H__
 #define __MILKYWORLDMATH_H__
+#include <algorithm>
+using namespace std;
+/************************************************
+类名:MyRectangle
+功能:矩形和碰撞检测
+备注:无
+************************************************/
+class MyRectangle
+{
+public:
+	MyRectangle(){}
+	~MyRectangle(){}
+	MyRectangle(Vec2 ul, Vec2 dr)
+	{
+		ul_point = ul;
+		dr_point = dr;
+	}
+	//判断两个矩形是否相交
+	bool is_touch(MyRectangle rec)
+	{
+		Vec2 max_point = Vec2(max(ul_point.x, rec.ul_point.x), max(ul_point.y, rec.ul_point.y));
+		Vec2 min_point = Vec2(min(dr_point.x, rec.dr_point.x), min(dr_point.y, rec.dr_point.y));
+		if (max_point.x < min_point.x&&max_point.y < min_point.y) return true;
+		return false;
+	}
+	//相交部分大小
+	Vec2 overlap_size(MyRectangle rec)
+	{
+		Vec2 max_point = Vec2(max(ul_point.x, rec.ul_point.x), max(ul_point.y, rec.ul_point.y));
+		Vec2 min_point = Vec2(min(dr_point.x, rec.dr_point.x), min(dr_point.y, rec.dr_point.y));
+		return Vec2(min_point - max_point);
+	}
+private:
+	Vec2 ul_point;//左上角
+	Vec2 dr_point;//右下角
+};
 /************************************************
 类名:perlin noise
 功能:产生柏林噪声

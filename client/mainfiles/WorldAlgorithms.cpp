@@ -16,9 +16,15 @@ Vec2 UIBlock::get_position()
 void UIBlock::set_position(Vec2 _position)
 {
 	position = _position;
+	touch_box = MyRectangle(_position - size / 2, _position + size / 2);
 	front_sprite->setPosition(_position);
 	mid_sprite->setPosition(_position);
 	back_sprite->setPosition(_position);
+}
+//第一次设置大小
+void UIBlock::init_size(Vec2 _size)
+{
+	size = _size;
 }
 //创建sprite
 void UIBlock::create_sprite()
@@ -26,6 +32,7 @@ void UIBlock::create_sprite()
 	front_sprite = Sprite::create("HelloWorld.png");
 	mid_sprite = Sprite::create("HelloWorld.png");
 	back_sprite = Sprite::create("HelloWorld.png");
+	init_size(Vec2(picture_length, picture_length));
 }
 //设置方块
 void UIBlock::set_front_block(FrontBlock _block)

@@ -14,7 +14,9 @@ public:
 	//防御力
 	int defence;
 	//大小(像素)
-	Vec2i size;
+	Vec2 size;
+	//矩形碰撞箱
+	MyRectangle touch_box;
 	//sprite
 	Sprite* sprite;
 	//着地
@@ -29,5 +31,6 @@ public:
 	Vec2 location;
 	bool enabled_gravity;
 	Vec2 velocity;
+	void set_location(Vec2 _location);
 };
 #endif
