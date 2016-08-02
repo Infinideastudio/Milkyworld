@@ -27,8 +27,10 @@ public:
 class FrontBlock :public Block//前景方块
 {
 public:
-	bool enabled_touch;//碰撞箱
+	//碰撞箱
+	bool enabled_touch;
 	FrontBlockType type;
+	//void set_touch_box(MyRectangle _touch_box);
 };
 /************************************************
 类名:中景方块

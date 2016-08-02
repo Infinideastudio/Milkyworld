@@ -48,7 +48,6 @@ void Chunk::save_chunk(string world_name, string planet_name)
 		file << static_cast<ushort>(front_block[i].type) << " " << front_block[i].enabled_touch << endl;
 		file << static_cast<ushort>(mid_block[i].type) << endl;
 	}
-
 	file.close();
 }
 //从二进制文件读取chunk数据
@@ -79,7 +78,10 @@ void Chunk::load_chunk(string world_name, string planet_name)
 功能:Block和其子类的函数定义
 备注:无
 ************************************************/
-
+//void FrontBlock::set_touch_box(MyRectangle _touch_box)
+//{
+//	*touch_box = _touch_box;
+//}
 /************************************************
 函数块:Planet类的函数定义
 功能:定义Planet类的函数
@@ -160,6 +162,7 @@ void Planet::generate_terrain()
 		height = noise_perducer.perlin_noise(i) + sea_level;
 		for (int j = 0; j < get_chunk_size().y*length_of_block_size; j++)
 		{
+			//front_block(Vec2i(i, j)).touch_box = MyRectangle(Vec2(i, j + 1)*picture_length, Vec2(i + 1, j)*picture_length);
 			if (j <= sea_level && j>height)
 			{
 				if (sea_level = 768)

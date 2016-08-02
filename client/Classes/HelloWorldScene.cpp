@@ -80,6 +80,7 @@ void HelloWorld::game_processor(float dt)
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	Vec2 new_location = Vec2(0, 0);//位移变化量
+	MyRectangle new_touch_box;
 	//四个方向分别判断是否按下按键，计算人物速度
 	if (keygroup_A_pressed[2])
 		player.velocity.x = -6*picture_length;
@@ -99,120 +100,72 @@ void HelloWorld::game_processor(float dt)
 	}
 	//碰撞检测和跳跃
 	new_location = player.location + player.velocity * dt;
-	Vec2i up_point = Vec2i(new_location.x - camera.location.x +
-		(new_location.x - camera.location.x<0)*world.planet.get_chunk_size().x*length_of_block_size*picture_length, new_location.y + player.size.y / 2 - camera.location.y);
-	Vec2i down_point = Vec2i(new_location.x - camera.location.x +
-		(new_location.x - camera.location.x<0)*world.planet.get_chunk_size().x*length_of_block_size*picture_length, new_location.y - player.size.y / 2 - camera.location.y);
-	Vec2i left_point = Vec2i(new_location.x - player.size.x / 2 - camera.location.x +
-		(new_location.x - camera.location.x<0)*world.planet.get_chunk_size().x*length_of_block_size*picture_length, new_location.y - camera.location.y);
-	Vec2i right_point = Vec2i(new_location.x + player.size.x / 2 - camera.location.x +
-		(new_location.x - camera.location.x<0)*world.planet.get_chunk_size().x*length_of_block_size*picture_length, new_location.y - camera.location.y);
+	new_touch_box = MyRectangle(Vec2(new_location.x - player.size.x / 2 - camera.location.x, new_location.y + player.size.y / 2 - camera.location.y)
+		, Vec2(new_location.x + player.size.x / 2 - camera.location.x, new_location.y - player.size.y / 2 - camera.location.y));
+	bool up_block_enabled_touch = false, down_block_enabled_touch = false;
+	bool left_block_enabled_touch = false, right_block_enabled_touch = false;
 	Vec2i up_UI_block, down_UI_block, left_UI_block, right_UI_block;
-	bool break_flag=false;
 	for (int i = 0; i < UI_block.size(); i++)
 	{
 		for (int j = 0; j < UI_block[i].size(); j++)
 		{
-			Vec2 position = UI_block[i][j].get_position();
-			if (up_point.x <= position.x + picture_length / 2
-				&& up_point.x > position.x - picture_length / 2
-				&& up_point.y <= position.y + picture_length / 2
-				&& up_point.y > position.y - picture_length / 2)
+			bool block_enabled_touch = world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index).enabled_touch;
+			//上方直线碰到方块
+			if (UI_block[i][j].touch_box.touch_line(new_touch_box.up_line) && !up_block_enabled_touch)
 			{
-				up_point = UI_block[i][j].chunk_location *length_of_block_size + UI_block[i][j].block_index;
+				up_block_enabled_touch = block_enabled_touch;
 				up_UI_block = Vec2i(i, j);
-				break_flag = true;
-				break;
-			}	
-		}
-		if (break_flag)break;
-	}
-	break_flag = false;
-	for (int i = 0; i < UI_block.size(); i++)
-	{
-		for (int j = 0; j < UI_block[i].size(); j++)
-		{
-			Vec2 position = UI_block[i][j].get_position();
-			if (down_point.x <= position.x + picture_length / 2
-				&& down_point.x > position.x - picture_length / 2
-				&& down_point.y <= position.y + picture_length / 2
-				&& down_point.y > position.y - picture_length / 2)
+			}
+			//下方直线碰到方块
+			if (UI_block[i][j].touch_box.touch_line(new_touch_box.down_line) && !down_block_enabled_touch)
 			{
-				down_point = UI_block[i][j].chunk_location *length_of_block_size + UI_block[i][j].block_index;
+				down_block_enabled_touch = block_enabled_touch;
 				down_UI_block = Vec2i(i, j);
-				break_flag = true;
-				break;
 			}
-		}
-		if (break_flag)break;
-	}
-	break_flag = false;
-	for (int i = 0; i < UI_block.size(); i++)
-	{
-		for (int j = 0; j < UI_block[i].size(); j++)
-		{
-			Vec2 position = UI_block[i][j].get_position();
-			if (left_point.x <= position.x + picture_length / 2
-				&& left_point.x > position.x - picture_length / 2
-				&& left_point.y <= position.y + picture_length / 2
-				&& left_point.y > position.y - picture_length / 2)
+			//左边直线碰到方块
+			if (UI_block[i][j].touch_box.touch_line(new_touch_box.left_line) && !left_block_enabled_touch)
 			{
-				left_point = UI_block[i][j].chunk_location *length_of_block_size + UI_block[i][j].block_index;
+				left_block_enabled_touch = block_enabled_touch;
 				left_UI_block = Vec2i(i, j);
-				break_flag = true;
-				break;
 			}
-		}
-		if (break_flag)break;
-	}
-	break_flag = false;
-	for (int i = 0; i < UI_block.size(); i++)
-	{
-		for (int j = 0; j < UI_block[i].size(); j++)
-		{
-			Vec2 position = UI_block[i][j].get_position();
-			if (right_point.x <= position.x + picture_length / 2
-				&& right_point.x > position.x - picture_length / 2
-				&& right_point.y <= position.y + picture_length / 2
-				&& right_point.y > position.y - picture_length / 2)
+			//右边直线碰到方块
+			if (UI_block[i][j].touch_box.touch_line(new_touch_box.right_line) && !right_block_enabled_touch)
 			{
-				right_point = UI_block[i][j].chunk_location *length_of_block_size + UI_block[i][j].block_index;
+				right_block_enabled_touch = block_enabled_touch;
 				right_UI_block = Vec2i(i, j);
-				break_flag = true;
-				break;
 			}
 		}
-		if (break_flag)break;
 	}
-	//跳跃
-	if (world.planet.front_block(up_point).enabled_touch)
+	//碰撞速度清零，更改位移到没碰撞时
+	if (up_block_enabled_touch)
 	{
 		if (player.velocity.y>0)player.velocity.y = 0;
-		new_location.y = camera.location.y + UI_block[up_UI_block.x][up_UI_block.y].get_position().y - player.size.y/2 - picture_length / 2-1;
+		new_location.y = camera.location.y + UI_block[up_UI_block.x][up_UI_block.y].get_position().y - player.size.y/2 - picture_length / 2;
 	}
-	if (world.planet.front_block(down_point).enabled_touch)
+	if (down_block_enabled_touch)
 	{
 		if (player.velocity.y<0)player.velocity.y = 0;
-		new_location.y = camera.location.y + UI_block[down_UI_block.x][down_UI_block.y].get_position().y + player.size.y/2 + picture_length / 2+1;
+		new_location.y = camera.location.y + UI_block[down_UI_block.x][down_UI_block.y].get_position().y + player.size.y/2 + picture_length / 2;
 		player.touch_ground = true;
 	}
 	else
 	{
 		player.touch_ground = false;
 	}
-	if (world.planet.front_block(left_point).enabled_touch)
+	if (left_block_enabled_touch)
 	{
 		if (player.velocity.x<0)player.velocity.x = 0;
-		new_location.x = camera.location.x + UI_block[left_UI_block.x][left_UI_block.y].get_position().x + player.size.x/2 + picture_length / 2+1;
+		new_location.x = camera.location.x + UI_block[left_UI_block.x][left_UI_block.y].get_position().x + player.size.x/2 + picture_length / 2;
 	}
-	if (world.planet.front_block(right_point).enabled_touch)
+	if (right_block_enabled_touch)
 	{
 		if (player.velocity.x>0)player.velocity.x = 0;
+		//理论上讲，不需要这个-1，但是一去掉就莫名其妙出bug
 		new_location.x = camera.location.x + UI_block[right_UI_block.x][right_UI_block.y].get_position().x - player.size.x/2 - picture_length / 2-1;
 	}
-	player.location = new_location;
+	player.set_location(new_location);
 	camera.location = player.location - visibleSize / 2;
-	label->setString(int_2_string(camera.location.x) + "," + int_2_string(camera.location.y));//debug
+	label->setString(int_2_string(player.velocity.x) + "," + int_2_string(player.velocity.y));//debug
 	//以下是关于地图左右循环的代码
 	int world_width = world.planet.get_chunk_size().x*length_of_block_size*picture_length;
 	int reset_camera = -1 * UI_block.size()*picture_length - 3* picture_length;
@@ -565,6 +518,7 @@ void HelloWorld::game_load(float dt)
 		player.touch_ground = false;
 		player.size = Vec2(20,45);
 		player.set_location(Vec2(300, (world.planet.sea_level+20) * picture_length));
+		//CCLOG
 		//创建一个分支线程用来加载世界，回调到game_load函数里
 		thread game_load_thread(&HelloWorld::game_planet_load, this);
 		game_load_thread.detach();

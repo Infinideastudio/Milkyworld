@@ -16,7 +16,8 @@ Vec2 UIBlock::get_position()
 void UIBlock::set_position(Vec2 _position)
 {
 	position = _position;
-	touch_box = MyRectangle(_position - size / 2, _position + size / 2);
+	touch_box = MyRectangle(Vec2(_position.x - size.x / 2, _position.y + size.y / 2)
+		, Vec2(_position.x + size.x / 2, _position.y - size.y / 2));
 	front_sprite->setPosition(_position);
 	mid_sprite->setPosition(_position);
 	back_sprite->setPosition(_position);
