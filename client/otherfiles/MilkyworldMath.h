@@ -36,11 +36,8 @@ public:
 	{
 		ul_point = ul;
 		dr_point = dr;
-		//这些+-3和+-10是一种很凑活的做法，因为如果不这样就难以判断玩家到底从哪个方向撞上方块的
-		//这样缩小了实际检测中边的长度，就不会出现落地时左右两边碰撞箱都响应的情况了
-		//但这样根本不行(╯‵□′)╯︵┻━┻ 谁有办法改改
-		up_line = MyLine(Vec2(ul.x+3, ul.y), Vec2(dr.x-3, ul.y));
-		down_line = MyLine(Vec2(ul.x+3, dr.y), Vec2(dr.x-3, dr.y));
+		up_line = MyLine(Vec2(ul.x+5, ul.y), Vec2(dr.x-5, ul.y));
+		down_line = MyLine(Vec2(ul.x+5, dr.y), Vec2(dr.x-5, dr.y));
 		left_line = MyLine(Vec2(ul.x, ul.y-10), Vec2(ul.x, dr.y+10));
 		right_line = MyLine(Vec2(dr.x, ul.y-10), Vec2(dr.x, dr.y+10));
 	}
@@ -49,7 +46,7 @@ public:
 	{
 		Vec2 max_point = Vec2(max(ul_point.x, rec.ul_point.x), min(ul_point.y, rec.ul_point.y));
 		Vec2 min_point = Vec2(min(dr_point.x, rec.dr_point.x), max(dr_point.y, rec.dr_point.y));
-		if (max_point.x <= min_point.x&&max_point.y <= min_point.y) return true;
+		if (max_point.x <= min_point.x&&max_point.y >= min_point.y) return true;
 		return false;
 	}
 	//求有向面积
@@ -62,7 +59,6 @@ public:
 	bool touch_line(MyLine line)
 	{
 		Vec2 A, B, C, D;
-		Vec2 AB, AC, AD, CD, CA, CB;
 		MyLine this_line[4] = { up_line, down_line, left_line, right_line };
 		C = line.ul_point;//start2
 		D = line.dr_point;//end2
@@ -89,16 +85,17 @@ public:
 	{
 		Vec2 max_point = Vec2(max(ul_point.x, rec.ul_point.x), min(ul_point.y, rec.ul_point.y));
 		Vec2 min_point = Vec2(min(dr_point.x, rec.dr_point.x), max(dr_point.y, rec.dr_point.y));
-		return Vec2(min_point - max_point);
+		return Vec2(min_point.x - max_point.x, max_point.y - min_point.y);
 	}
 	//四条边
 	MyLine up_line;
 	MyLine down_line;
 	MyLine left_line;
 	MyLine right_line;
-private:
 	Vec2 ul_point;//左上角
 	Vec2 dr_point;//右下角
+private:
+	
 };
 /************************************************
 类名:perlin noise
