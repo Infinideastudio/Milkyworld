@@ -7,7 +7,7 @@
 #include "Definition.h"
 #include "cocos2d.h"
 #include <vector>
-#include <.\otherfiles\MilkyworldMath.h>
+#include ".\codes\Algorithm\AllAlgorithm.h"
 using namespace std;
 USING_NS_CC;
 /************************************************
@@ -30,6 +30,7 @@ public:
 	//Åö×²Ïä
 	bool enabled_touch;
 	FrontBlockType type;
+	//MyRectangle hit_box;
 	//void set_touch_box(MyRectangle _touch_box);
 };
 /************************************************

@@ -13,8 +13,11 @@
     <Filter Include="src\mainfiles">
       <UniqueIdentifier>{ef043ae9-3d02-4932-9985-4ff71f0e7597}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\otherfiles">
-      <UniqueIdentifier>{ee702393-a069-4793-a75e-cd625a51c624}</UniqueIdentifier>
+    <Filter Include="src\Mob">
+      <UniqueIdentifier>{632ccdc9-eb4b-4a7c-bc73-bf127a948e2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Algorithm">
+      <UniqueIdentifier>{5682aebc-2b13-431c-85ea-141a9274dd66}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -33,8 +36,26 @@
     <ClCompile Include="..\Classes\HelloWorldScene.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\mainfiles\WorldMob.cpp">
-      <Filter>src\mainfiles</Filter>
+    <ClCompile Include="..\codes\Algorithm\MyLine.cpp">
+      <Filter>src\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codes\Algorithm\MyRectangle.cpp">
+      <Filter>src\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codes\Algorithm\PerlinNoise.cpp">
+      <Filter>src\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codes\Algorithm\Vec2i.cpp">
+      <Filter>src\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codes\Algorithm\Vec2l.cpp">
+      <Filter>src\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codes\Mob\Mob.cpp">
+      <Filter>src\Mob</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codes\Mob\Player.cpp">
+      <Filter>src\Mob</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -50,17 +71,38 @@
     <ClInclude Include="..\mainfiles\WorldAlgorithms.h">
       <Filter>src\mainfiles</Filter>
     </ClInclude>
-    <ClInclude Include="..\otherfiles\MilkyworldMath.h">
-      <Filter>src\otherfiles</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\HelloWorldScene.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\mainfiles\WorldMob.h">
-      <Filter>src\mainfiles</Filter>
+    <ClInclude Include="..\codes\Algorithm\AllAlgorithm.h">
+      <Filter>src\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Algorithm\MyLine.h">
+      <Filter>src\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Algorithm\MyRectangle.h">
+      <Filter>src\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Algorithm\PerlinNoise.h">
+      <Filter>src\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Algorithm\Vec2i.h">
+      <Filter>src\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Algorithm\Vec2l.h">
+      <Filter>src\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Mob\AllMobs.h">
+      <Filter>src\Mob</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Mob\Mob.h">
+      <Filter>src\Mob</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Mob\Player.h">
+      <Filter>src\Mob</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

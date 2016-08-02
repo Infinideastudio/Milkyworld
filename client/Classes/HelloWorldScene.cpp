@@ -79,9 +79,7 @@ void HelloWorld::game_processor(float dt)
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
-	Vec2 new_location = Vec2(0, 0);//位移变化量
-	bool over_map_flag = false;
-	MyRectangle new_touch_box;
+	
 	//四个方向分别判断是否按下按键，计算人物速度
 	if (keygroup_A_pressed[2])
 		player.velocity.x = -6*picture_length;
@@ -99,52 +97,67 @@ void HelloWorld::game_processor(float dt)
 	{
 		player.velocity.y += world.planet.gravitational_acceleration*dt;
 	}
-	//碰撞检测和跳跃
-	new_location = player.location + player.velocity * dt;
+	//碰撞检测
 	int world_width = world.planet.get_chunk_size().x*length_of_block_size*picture_length;
-	new_touch_box = MyRectangle(Vec2(new_location.x - player.size.x / 2 - camera.location.x, new_location.y + player.size.y / 2 - camera.location.y)
-		, Vec2(new_location.x + player.size.x / 2 - camera.location.x, new_location.y - player.size.y / 2 - camera.location.y));
 	player.touch_ground = false;
+	bool x_flag=false, y_flag=false;
+	//对于每个UIblock
 	for (int i = 0; i < UI_block.size(); i++)
 	{
 		for (int j = 0; j < UI_block[i].size(); j++)
 		{
 			bool block_enabled_touch = world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index).enabled_touch;
-			if (UI_block[i][j].touch_box.is_touch(new_touch_box) && block_enabled_touch)
+			//新位置
+			Vec2 new_location;
+			MyRectangle new_hit_box;
+			if (!y_flag)
 			{
-				//向上移动时碰撞
-				if (player.velocity.y>0 && UI_block[i][j].touch_box.touch_line(new_touch_box.up_line))
+				new_location = player.location;
+				new_location.y += player.velocity.y * dt;
+				new_hit_box = MyRectangle(Vec2(new_location.x - player.size.x / 2 - camera.location.x, new_location.y + player.size.y / 2 - camera.location.y)
+					, Vec2(new_location.x + player.size.x / 2 - camera.location.x, new_location.y - player.size.y / 2 - camera.location.y));
+				//竖直移动时碰撞
+				if (new_hit_box.is_touch(UI_block[i][j].touch_box) && block_enabled_touch)
 				{
-					player.velocity.y = 0;
-					new_location.y -= UI_block[i][j].touch_box.overlap_size(new_touch_box).y;
+					//防止浮点数误差
+					if (new_hit_box.overlap_size(UI_block[i][j].touch_box).x > 1)
+					{
+						player.velocity.y += (player.velocity.y != 0)*((player.velocity.y < 0) * 2 - 1)*new_hit_box.overlap_size(UI_block[i][j].touch_box).y / dt;
+						//player.velocity.y = 0;
+						player.touch_ground = player.velocity.y < 0;
+						y_flag = true;
+					}
 				}
-				//向下移动时碰撞
-				if (player.velocity.y < 0 && UI_block[i][j].touch_box.touch_line(new_touch_box.down_line))
+				
+			}
+			if (!x_flag)
+			{
+				new_location = player.location;
+				new_location.x += player.velocity.x * dt;
+				new_hit_box = MyRectangle(Vec2(new_location.x - player.size.x / 2 - camera.location.x, new_location.y + player.size.y / 2 - camera.location.y)
+					, Vec2(new_location.x + player.size.x / 2 - camera.location.x, new_location.y - player.size.y / 2 - camera.location.y));
+				//水平移动时碰撞
+				if (new_hit_box.is_touch(UI_block[i][j].touch_box) && block_enabled_touch)
 				{
-					player.velocity.y = 0;
-					new_location.y += UI_block[i][j].touch_box.overlap_size(new_touch_box).y;
-					player.touch_ground = true;
-				}
-				//向左移动时碰撞
-				if (player.velocity.x<0 && UI_block[i][j].touch_box.touch_line(new_touch_box.left_line))
-				{
-					player.velocity.x = 0;
-					new_location.x += UI_block[i][j].touch_box.overlap_size(new_touch_box).x;
-				}
-				//向右移动时碰撞
-				if (player.velocity.x>0 && UI_block[i][j].touch_box.touch_line(new_touch_box.right_line))
-				{
-					player.velocity.x = 0;
-					new_location.x -= UI_block[i][j].touch_box.overlap_size(new_touch_box).x + 1;
+					//防止浮点数误差
+					if (new_hit_box.overlap_size(UI_block[i][j].touch_box).y > 1)
+					{
+						player.velocity.x += (player.velocity.x != 0)*((player.velocity.x < 0) * 2 - 1)*new_hit_box.overlap_size(UI_block[i][j].touch_box).x / dt;
+						//player.velocity.x = 0;
+						x_flag = true;
+					}
 				}
 			}
+			if (x_flag&&y_flag)break;
 		}
+		if (x_flag&&y_flag)break;
 	}
-	player.set_location(new_location);
+	player.set_location(player.location+player.velocity*dt);
 	camera.location = player.location - visibleSize / 2;
-	label->setString(int_2_string(camera.location.x) + "," + int_2_string(camera.location.y));//debug
+	label->setString(int_2_string(player.velocity.x) + "," + int_2_string(player.velocity.y));//debug
 	//以下是关于地图左右循环的代码
 	int reset_camera = -1 * UI_block.size()*picture_length - 3* picture_length;
+	bool over_map_flag = false;
 	//over_map_flag=true表示camera已经到了正确的位置，所有方块都不再借用地图另一端的。
 	if (camera.location.x < reset_camera)
 	{
@@ -441,6 +454,10 @@ bool HelloWorld::on_touch_began(Touch * touch, Event * event)
 				else 
 				if (world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index).type == FrontBlockType::air)
 				{
+					MyRectangle new_hit_box;
+					new_hit_box = MyRectangle(Vec2(player.location.x - player.size.x / 2 - camera.location.x, player.location.y + player.size.y / 2 - camera.location.y)
+						, Vec2(player.location.x + player.size.x / 2 - camera.location.x, player.location.y - player.size.y / 2 - camera.location.y));
+					if (UI_block[i][j].touch_box.is_touch(new_hit_box))return true;
 					world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index).type = FrontBlockType::dirt;
 					world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index).enabled_touch = true;
 				}

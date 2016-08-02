@@ -3,7 +3,7 @@
 #include "cocos2d.h"
 #include "mainfiles\WorldStructure.h"
 #include "mainfiles\WorldAlgorithms.h"
-#include "mainfiles\WorldMob.h"
+#include ".\codes\Mob\AllMobs.h"
 #include <vector>
 /************************************************
 类名:主场景
