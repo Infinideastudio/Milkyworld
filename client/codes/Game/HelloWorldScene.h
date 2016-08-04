@@ -16,7 +16,9 @@ class HelloWorld : public cocos2d::Layer
 public:
 	UICamera camera;
 	vector<vector<UIBlock> > UI_block;
+	//背景
 	Sprite* back_ground;
+	//世界
 	World world;
 	Label* label;
 	//加载进度条
