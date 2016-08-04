@@ -151,33 +151,57 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
+    <ClCompile Include="..\codes\Algorithm\Functions.cpp" />
     <ClCompile Include="..\codes\Algorithm\MyLine.cpp" />
     <ClCompile Include="..\codes\Algorithm\MyRectangle.cpp" />
     <ClCompile Include="..\codes\Algorithm\PerlinNoise.cpp" />
     <ClCompile Include="..\codes\Algorithm\Vec2i.cpp" />
     <ClCompile Include="..\codes\Algorithm\Vec2l.cpp" />
+    <ClCompile Include="..\codes\GameUI\UIBlock.cpp" />
+    <ClCompile Include="..\codes\GameUI\UICamera.cpp" />
+    <ClCompile Include="..\codes\Game\HelloWorldScene.cpp" />
     <ClCompile Include="..\codes\Mob\Mob.cpp" />
     <ClCompile Include="..\codes\Mob\Player.cpp" />
-    <ClCompile Include="..\mainfiles\WorldAlgorithms.cpp" />
-    <ClCompile Include="..\mainfiles\WorldStructure.cpp" />
+    <ClCompile Include="..\codes\Structure\BackBlock.cpp" />
+    <ClCompile Include="..\codes\Structure\Block.cpp" />
+    <ClCompile Include="..\codes\Structure\CelestialBody.cpp" />
+    <ClCompile Include="..\codes\Structure\Chunk.cpp" />
+    <ClCompile Include="..\codes\Structure\FrontBlock.cpp" />
+    <ClCompile Include="..\codes\Structure\MidBlock.cpp" />
+    <ClCompile Include="..\codes\Structure\Planet.cpp" />
+    <ClCompile Include="..\codes\Structure\World.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
-    <ClInclude Include="..\Classes\HelloWorldScene.h" />
-    <ClInclude Include="..\codes\Algorithm\AllAlgorithm.h" />
+    <ClInclude Include="..\codes\Algorithm\AllAlgorithms.h" />
+    <ClInclude Include="..\codes\Algorithm\Definition.h" />
+    <ClInclude Include="..\codes\Algorithm\Functions.h" />
     <ClInclude Include="..\codes\Algorithm\MyLine.h" />
     <ClInclude Include="..\codes\Algorithm\MyRectangle.h" />
     <ClInclude Include="..\codes\Algorithm\PerlinNoise.h" />
     <ClInclude Include="..\codes\Algorithm\Vec2i.h" />
     <ClInclude Include="..\codes\Algorithm\Vec2l.h" />
+    <ClInclude Include="..\codes\GameUI\AllGameUI.h" />
+    <ClInclude Include="..\codes\GameUI\UIBlock.h" />
+    <ClInclude Include="..\codes\GameUI\UICamera.h" />
+    <ClInclude Include="..\codes\Game\HelloWorldScene.h" />
     <ClInclude Include="..\codes\Mob\AllMobs.h" />
     <ClInclude Include="..\codes\Mob\Mob.h" />
     <ClInclude Include="..\codes\Mob\Player.h" />
-    <ClInclude Include="..\mainfiles\WorldAlgorithms.h" />
-    <ClInclude Include="..\mainfiles\WorldStructure.h" />
-    <ClInclude Include="..\mainfiles\Definition.h" />
+    <ClInclude Include="..\codes\Structure\AllStructures.h" />
+    <ClInclude Include="..\codes\Structure\BackBlock.h" />
+    <ClInclude Include="..\codes\Structure\BackBlockType.h" />
+    <ClInclude Include="..\codes\Structure\Block.h" />
+    <ClInclude Include="..\codes\Structure\CelestialBody.h" />
+    <ClInclude Include="..\codes\Structure\Chunk.h" />
+    <ClInclude Include="..\codes\Structure\FrontBlock.h" />
+    <ClInclude Include="..\codes\Structure\FrontBlockType.h" />
+    <ClInclude Include="..\codes\Structure\ItemType.h" />
+    <ClInclude Include="..\codes\Structure\MidBlock.h" />
+    <ClInclude Include="..\codes\Structure\MidBlockType.h" />
+    <ClInclude Include="..\codes\Structure\Planet.h" />
+    <ClInclude Include="..\codes\Structure\World.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,7 @@
 #ifndef __MOB_PLAYER_H__
 #define __MOB_PLAYER_H__
 #include <vector>
-#include "..\mainfiles\Definition.h"
+#include "..\Structure\ItemType.h"
 #include "Mob.h"
 #include "cocos2d.h"
 using namespace std;

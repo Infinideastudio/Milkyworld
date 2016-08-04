@@ -10,30 +10,27 @@
     <Filter Include="src">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\mainfiles">
-      <UniqueIdentifier>{ef043ae9-3d02-4932-9985-4ff71f0e7597}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Mob">
       <UniqueIdentifier>{632ccdc9-eb4b-4a7c-bc73-bf127a948e2d}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Algorithm">
       <UniqueIdentifier>{5682aebc-2b13-431c-85ea-141a9274dd66}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Structure">
+      <UniqueIdentifier>{46d3e63c-fe58-4568-b1ed-5b5e8c57e34a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameUI">
+      <UniqueIdentifier>{bc713571-8e7d-477c-8232-c324a38e03ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Game">
+      <UniqueIdentifier>{2bf523fa-d4cc-4c5a-a0d8-aac4288e86f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>win32</Filter>
     </ClCompile>
-    <ClCompile Include="..\mainfiles\WorldStructure.cpp">
-      <Filter>src\mainfiles</Filter>
-    </ClCompile>
-    <ClCompile Include="..\mainfiles\WorldAlgorithms.cpp">
-      <Filter>src\mainfiles</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\AppDelegate.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\codes\Algorithm\MyLine.cpp">
@@ -57,28 +54,49 @@
     <ClCompile Include="..\codes\Mob\Player.cpp">
       <Filter>src\Mob</Filter>
     </ClCompile>
+    <ClCompile Include="..\codes\GameUI\UIBlock.cpp">
+      <Filter>src\GameUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codes\GameUI\UICamera.cpp">
+      <Filter>src\GameUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codes\Algorithm\Functions.cpp">
+      <Filter>src\Algorithm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codes\Structure\World.cpp">
+      <Filter>src\Structure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codes\Structure\Planet.cpp">
+      <Filter>src\Structure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codes\Structure\CelestialBody.cpp">
+      <Filter>src\Structure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codes\Structure\Chunk.cpp">
+      <Filter>src\Structure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codes\Structure\Block.cpp">
+      <Filter>src\Structure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codes\Structure\FrontBlock.cpp">
+      <Filter>src\Structure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codes\Structure\MidBlock.cpp">
+      <Filter>src\Structure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codes\Structure\BackBlock.cpp">
+      <Filter>src\Structure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\codes\Game\HelloWorldScene.cpp">
+      <Filter>src\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
       <Filter>win32</Filter>
     </ClInclude>
-    <ClInclude Include="..\mainfiles\WorldStructure.h">
-      <Filter>src\mainfiles</Filter>
-    </ClInclude>
-    <ClInclude Include="..\mainfiles\Definition.h">
-      <Filter>src\mainfiles</Filter>
-    </ClInclude>
-    <ClInclude Include="..\mainfiles\WorldAlgorithms.h">
-      <Filter>src\mainfiles</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\codes\Algorithm\AllAlgorithm.h">
-      <Filter>src\Algorithm</Filter>
     </ClInclude>
     <ClInclude Include="..\codes\Algorithm\MyLine.h">
       <Filter>src\Algorithm</Filter>
@@ -103,6 +121,66 @@
     </ClInclude>
     <ClInclude Include="..\codes\Mob\Player.h">
       <Filter>src\Mob</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\GameUI\UIBlock.h">
+      <Filter>src\GameUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\GameUI\UICamera.h">
+      <Filter>src\GameUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Algorithm\AllAlgorithms.h">
+      <Filter>src\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\GameUI\AllGameUI.h">
+      <Filter>src\GameUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Algorithm\Functions.h">
+      <Filter>src\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Structure\World.h">
+      <Filter>src\Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Structure\Planet.h">
+      <Filter>src\Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Structure\CelestialBody.h">
+      <Filter>src\Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Structure\Chunk.h">
+      <Filter>src\Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Structure\Block.h">
+      <Filter>src\Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Structure\FrontBlock.h">
+      <Filter>src\Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Structure\MidBlock.h">
+      <Filter>src\Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Structure\BackBlock.h">
+      <Filter>src\Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Algorithm\Definition.h">
+      <Filter>src\Algorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Structure\FrontBlockType.h">
+      <Filter>src\Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Structure\MidBlockType.h">
+      <Filter>src\Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Structure\BackBlockType.h">
+      <Filter>src\Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Structure\ItemType.h">
+      <Filter>src\Structure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Game\HelloWorldScene.h">
+      <Filter>src\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\codes\Structure\AllStructures.h">
+      <Filter>src\Structure</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

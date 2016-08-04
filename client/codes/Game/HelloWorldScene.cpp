@@ -1,10 +1,11 @@
 ﻿#include "HelloWorldScene.h"
 //#include "stdafx.h"//vs专用头文件，用其他编译器编译可注释掉
-#include "mainfiles\Definition.h"
-#include "mainfiles\WorldStructure.h"
+#include "..\Algorithm\AllAlgorithms.h"
+#include "..\Structure\AllStructures.h"
+#include "..\GameUI\AllGameUI.h"
+#include "..\Mob\AllMobs.h"
 #include<iostream>
 using namespace std;
-using namespace AlgorithmVar;
 USING_NS_CC;
 /************************************************
 流程解释:游戏加载的过程

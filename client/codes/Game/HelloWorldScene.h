@@ -1,9 +1,10 @@
 #ifndef __HELLOWORLD_SCENE_H__
 #define __HELLOWORLD_SCENE_H__
 #include "cocos2d.h"
-#include "mainfiles\WorldStructure.h"
-#include "mainfiles\WorldAlgorithms.h"
-#include ".\codes\Mob\AllMobs.h"
+#include "..\Algorithm\AllAlgorithms.h"
+#include "..\Structure\AllStructures.h"
+#include "..\GameUI\AllGameUI.h"
+#include "..\Mob\AllMobs.h"
 #include <vector>
 /************************************************
 类名:主场景

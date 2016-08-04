@@ -1,7 +1,7 @@
 #ifndef __MOB_MOB_H__
 #define __MOB_MOB_H__
 #include <vector>
-#include "..\Algorithm\AllAlgorithm.h"
+#include "..\Algorithm\AllAlgorithms.h"
 #include "cocos2d.h"
 using namespace std;
 USING_NS_CC;
