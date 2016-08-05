@@ -27,6 +27,8 @@ public:
 	int get_chunk_id(Vec2i _location);
 	//不经过chunk直接操作block
 	FrontBlock& front_block(Vec2i _location);
+	//根据坐标获取block的碰撞箱
+	MyRectangle hit_box(Vec2i _location);
 	//设置地形种子
 	void set_terrain_seed(ull seed);
 	//生成地形

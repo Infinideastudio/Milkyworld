@@ -16,10 +16,5 @@ class Player:public Mob
 public:
 	//背包
 	vector<ItemType> inventory;
-	//世界坐标
-	Vec2 location;
-	bool enabled_gravity;
-	Vec2 velocity;
-	void set_location(Vec2 _location);
 };
 #endif

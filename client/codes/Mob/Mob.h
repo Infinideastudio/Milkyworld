@@ -25,5 +25,14 @@ public:
 	Sprite* sprite;
 	//着地
 	bool touch_ground;
+	//世界坐标
+	Vec2 location;
+	bool enabled_gravity;
+	Vec2 velocity;
+	void set_location(Vec2 _location);
+	//中心所在的block坐标
+	Vec2i on_block();
+	Vec2i hit_test_start();
+	Vec2i hit_test_end();
 };
 #endif

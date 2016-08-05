@@ -32,11 +32,24 @@ Chunk& Planet::get_chunk(Vec2i _location)
 //直接操作block
 FrontBlock& Planet::front_block(Vec2i _location)
 {
-	Vec2i chunk_location = Vec2i(_location.x / length_of_block_size, _location.y / length_of_block_size);
-	Vec2i block_location = Vec2i(_location.x % length_of_block_size, _location.y % length_of_block_size);
+	Vec2i __location = _location;
+	int world_block_width = chunk_size.x *length_of_block_size;
+	if (__location.x >= world_block_width)__location.x -= world_block_width;
+	else if (__location.x < 0)__location.x += world_block_width;
+	Vec2i chunk_location = Vec2i(__location.x / length_of_block_size, __location.y / length_of_block_size);
+	Vec2i block_location = Vec2i(__location.x % length_of_block_size, __location.y % length_of_block_size);
 	int chunk_index = chunk_location.x*chunk_size.y + chunk_location.y;
 	int block_index = block_location.x*length_of_block_size + block_location.y;
 	return chunk[chunk_index].front_block[block_index];
+}
+/************************************************
+函数名:hit_box
+功能:获取方块碰撞箱
+备注:参数为方块坐标
+************************************************/
+MyRectangle Planet::hit_box(Vec2i _location)
+{
+	return MyRectangle(Vec2(_location.x - 0.5, _location.y + 0.5)*picture_length, Vec2(_location.x + 0.5, _location.y - 0.5)*picture_length);
 }
 //设置地形种子
 void Planet::set_terrain_seed(ull seed)

@@ -102,29 +102,29 @@ void HelloWorld::game_processor(float dt)
 	int world_width = world.planet.get_chunk_size().x*length_of_block_size*picture_length;
 	player.touch_ground = false;
 	bool x_flag=false, y_flag=false;
-	//对于每个UIblock
-	for (int i = 0; i < UI_block.size(); i++)
+	//检测玩家周围每个方块
+	Vec2i current;
+	for (current.x = player.hit_test_start().x; current.x <= player.hit_test_end().x; current.x++)
 	{
-		for (int j = 0; j < UI_block[i].size(); j++)
+		for (current.y = player.hit_test_start().y; current.y <= player.hit_test_end().y; current.y++)
 		{
-			bool block_enabled_touch = world.planet.get_chunk(UI_block[i][j].chunk_location).get_front_block(UI_block[i][j].block_index).enabled_touch;
 			//新位置
 			Vec2 new_location;
 			MyRectangle new_hit_box;
+			bool block_enabled_touch = world.planet.front_block(current).enabled_touch;
 			if (!y_flag)
 			{
 				new_location = player.location;
 				new_location.y += player.velocity.y * dt;
-				new_hit_box = MyRectangle(Vec2(new_location.x - player.size.x / 2 - camera.location.x, new_location.y + player.size.y / 2 - camera.location.y)
-					, Vec2(new_location.x + player.size.x / 2 - camera.location.x, new_location.y - player.size.y / 2 - camera.location.y));
+				new_hit_box = MyRectangle(Vec2(new_location.x - player.size.x / 2 , new_location.y + player.size.y / 2 )
+					, Vec2(new_location.x + player.size.x / 2 , new_location.y - player.size.y / 2 ));
 				//竖直移动时碰撞
-				if (new_hit_box.is_touch(UI_block[i][j].touch_box) && block_enabled_touch)
+				if (new_hit_box.is_touch(world.planet.hit_box(current)) && block_enabled_touch)
 				{
 					//防止浮点数误差
-					if (new_hit_box.overlap_size(UI_block[i][j].touch_box).x > 1)
+					if (new_hit_box.overlap_size(world.planet.hit_box(current)).x > 1)
 					{
-						player.velocity.y += (player.velocity.y != 0)*((player.velocity.y < 0) * 2 - 1)*new_hit_box.overlap_size(UI_block[i][j].touch_box).y / dt;
-						//player.velocity.y = 0;
+						player.velocity.y += (player.velocity.y != 0)*((player.velocity.y < 0) * 2 - 1)*new_hit_box.overlap_size(world.planet.hit_box(current)).y / dt;
 						player.touch_ground = player.velocity.y < 0;
 						y_flag = true;
 					}
@@ -135,16 +135,15 @@ void HelloWorld::game_processor(float dt)
 			{
 				new_location = player.location;
 				new_location.x += player.velocity.x * dt;
-				new_hit_box = MyRectangle(Vec2(new_location.x - player.size.x / 2 - camera.location.x, new_location.y + player.size.y / 2 - camera.location.y)
-					, Vec2(new_location.x + player.size.x / 2 - camera.location.x, new_location.y - player.size.y / 2 - camera.location.y));
+				new_hit_box = MyRectangle(Vec2(new_location.x - player.size.x / 2, new_location.y + player.size.y / 2)
+					, Vec2(new_location.x + player.size.x / 2, new_location.y - player.size.y / 2));
 				//水平移动时碰撞
-				if (new_hit_box.is_touch(UI_block[i][j].touch_box) && block_enabled_touch)
+				if (new_hit_box.is_touch(world.planet.hit_box(current)) && block_enabled_touch)
 				{
 					//防止浮点数误差
-					if (new_hit_box.overlap_size(UI_block[i][j].touch_box).y > 1)
+					if (new_hit_box.overlap_size(world.planet.hit_box(current)).y > 1)
 					{
-						player.velocity.x += (player.velocity.x != 0)*((player.velocity.x < 0) * 2 - 1)*new_hit_box.overlap_size(UI_block[i][j].touch_box).x / dt;
-						//player.velocity.x = 0;
+						player.velocity.x += (player.velocity.x != 0)*((player.velocity.x < 0) * 2 - 1)*new_hit_box.overlap_size(world.planet.hit_box(current)).x / dt;
 						x_flag = true;
 					}
 				}
