@@ -1,21 +1,46 @@
+/*
+* Milkyworld: A free game similar to “The Blockheads”.
+* Copyright (C) 2016 Infinideas
+*
+* This file is part of Milkyworld.
+* Milkyworld is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* Milkyworld is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with Milkyworld.  If not, see <http://www.gnu.org/licenses/>.
+*/
 #include "Planet.h"
 /************************************************
-函数块:Planet类的函数定义
-功能:定义Planet类的函数
+函数名:set_chunk_size
+功能:设置地图中chunk的数量
 备注:无
 ************************************************/
-//设置地图中chunk的数量
 void Planet::set_chunk_size(Vec2i _size)
 {
 	chunk_size = _size;
 	chunk.resize(_size.x*_size.y);
 }
-//获取地图中chunk的数量
+/************************************************
+函数名:get_chunk_size
+功能:获取地图中chunk的数量
+备注:无
+************************************************/
 Vec2i Planet::get_chunk_size()
 {
 	return chunk_size;
 }
-//根据绝对坐标找chunk的ID
+/************************************************
+函数名:get_chunk_id
+功能:根据绝对坐标找chunk的ID
+备注:无
+************************************************/
 int Planet::get_chunk_id(Vec2i _location)
 {
 	return _location.x*chunk_size.y + _location.y;
@@ -24,12 +49,20 @@ int Planet::get_chunk_id(Vec2i _location)
 	return i;
 	return -1;*/
 }
-//根据绝对坐标找chunk
+/************************************************
+函数名:get_chunk
+功能:根据绝对坐标找chunk
+备注:无
+************************************************/
 Chunk& Planet::get_chunk(Vec2i _location)
 {
 	return chunk[get_chunk_id(_location)];
 }
-//直接操作block
+/************************************************
+函数名:front_block
+功能:直接操作block
+备注:无
+************************************************/
 FrontBlock& Planet::front_block(Vec2i _location)
 {
 	Vec2i __location = _location;
@@ -51,13 +84,21 @@ MyRectangle Planet::hit_box(Vec2i _location)
 {
 	return MyRectangle(Vec2(_location.x - 0.5, _location.y + 0.5)*picture_length, Vec2(_location.x + 0.5, _location.y - 0.5)*picture_length);
 }
-//设置地形种子
+/************************************************
+函数名:set_terrain_seed
+功能:设置地形种子
+备注:无
+************************************************/
 void Planet::set_terrain_seed(ull seed)
 {
 	terrain_seed = seed;
 	noise_perducer.seed = seed;
 }
-//生成地形
+/************************************************
+函数名:generate_terrain
+功能:生成地形
+备注:无
+************************************************/
 void Planet::generate_terrain()
 {
 	noise_perducer.frequency = 0.03;

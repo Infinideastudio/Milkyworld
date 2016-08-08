@@ -1,3 +1,21 @@
+/*
+* Milkyworld: A free game similar to “The Blockheads”.
+* Copyright (C) 2016 Infinideas
+*
+* This file is part of Milkyworld.
+* Milkyworld is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* Milkyworld is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with Milkyworld.  If not, see <http://www.gnu.org/licenses/>.
+*/
 #ifndef __ALGORITHM_PERLINNOISE_H__
 #define __ALGORITHM_PERLINNOISE_H__
 /************************************************
@@ -11,39 +29,15 @@ public:
 	double frequency;
 	double amplitude;//幅度，可改，越大地形高度变化越大
 	unsigned long long seed;
-	double Noise(int x)//随机数发生器(未经过处理)
-	{
-		x = (x << 13) ^ x;
-		return 1.0 - ((x * (x * x * seed + 789221) + 1376312589) & 0x7fffffff) / 1073741824.0 + 1;
-	}
-	double smoothedNoise(double x)//平滑噪声(取平均值)
-	{
-		return Noise(x) / 2 + Noise(x - 1) / 4 + Noise(x + 1) / 4;
-	}
-	double interpolate(double a, double b, double x)//线性插值函数
-	{
-		return a*(1 - x) + b*x;
-	}
-	double interpolatedNoise(double x)//插值噪声
-	{
-		int int_x = int(x);
-		double fractional_x = x - int_x;
-		double v1 = smoothedNoise(int_x);
-		double v2 = smoothedNoise(int_x + 1);
-		return interpolate(v1, v2, fractional_x);
-	}
-	double perlin_noise(double x)//最终函数,传入x返回对应的y
-	{
-		double total = 0;
-		double freq = frequency;
-		double ampl = amplitude;
-		double blockSize = 1;//每个格子的大小，可改
-		for (int i = 0; i <= 4; i++)
-		{
-			total += interpolatedNoise(x*freq)*ampl;
-			freq *= 2; ampl /= 2.0;
-		}
-		return int(total * 5 * blockSize - amplitude * 8);
-	}
+	//随机数发生器(未经过处理)
+	double Noise(int x);
+	//平滑噪声(取平均值)
+	double smoothedNoise(double x);
+	//线性插值函数
+	double interpolate(double a, double b, double x);
+	//插值噪声
+	double interpolatedNoise(double x);
+	//最终函数,传入x返回对应的y
+	double perlin_noise(double x);
 };
 #endif

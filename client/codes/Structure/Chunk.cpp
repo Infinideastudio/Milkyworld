@@ -1,35 +1,68 @@
+/*
+* Milkyworld: A free game similar to “The Blockheads”.
+* Copyright (C) 2016 Infinideas
+*
+* This file is part of Milkyworld.
+* Milkyworld is free software: you can redistribute it and/or modify
+* it under the terms of the GNU Lesser General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* Milkyworld is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU Lesser General Public License for more details.
+*
+* You should have received a copy of the GNU Lesser General Public License
+* along with Milkyworld.  If not, see <http://www.gnu.org/licenses/>.
+*/
 #include "Chunk.h"
 #include <vector>
 #include <fstream>
 using namespace std;
 /************************************************
-函数块:chunk类的函数定义
-功能:定义chunk类的函数
+函数名:set_front_block
+功能:设置前景方块
 备注:无
 ************************************************/
-//设置前景方块
 void Chunk::set_front_block(Vec2i position, FrontBlock _front_block)
 {
 	int _x = position.x * length_of_block_size + position.y;
 	front_block[_x] = _front_block;
 }
-//获取前景方块
+/************************************************
+函数名:get_front_block
+功能:获取前景方块
+备注:无
+************************************************/
 FrontBlock& Chunk::get_front_block(Vec2i location)
 {
 	int _x = location.x * length_of_block_size + location.y;
 	return front_block[_x];
 }
-//设置chunk在地图上的绝对坐标
+/************************************************
+函数名:set_location
+功能:设置chunk在地图上的绝对坐标
+备注:无
+************************************************/
 void Chunk::set_location(Vec2i p)
 {
 	location = p;
 }
-//获取chunk在地图上的绝对坐标
+/************************************************
+函数名:get_location
+功能:获取chunk在地图上的绝对坐标
+备注:无
+************************************************/
 Vec2i Chunk::get_location()
 {
 	return location;
 }
-//保存行星数据到二进制文件
+/************************************************
+函数名:save_chunk
+功能:保存chunk数据到二进制文件
+备注:这里二进制存储有明显错误，别吐槽...
+************************************************/
 void Chunk::save_chunk(string world_name, string planet_name)
 {
 	ofstream file;
@@ -49,7 +82,11 @@ void Chunk::save_chunk(string world_name, string planet_name)
 	}
 	file.close();
 }
-//从二进制文件读取chunk数据
+/************************************************
+函数名:load_chunk
+功能:从二进制文件读取chunk数据
+备注:这里二进制读取有明显错误，别吐槽...
+************************************************/
 void Chunk::load_chunk(string world_name, string planet_name)
 {
 	ifstream file;
