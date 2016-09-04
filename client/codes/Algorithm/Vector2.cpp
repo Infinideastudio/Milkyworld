@@ -16,13 +16,13 @@
 * You should have received a copy of the GNU Lesser General Public License
 * along with Milkyworld.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include "Vec2l.h"
+#include "Vector2.h"
 /************************************************
-函数名:Vec2l
+函数名:Vector2
 功能:构造函数
 备注:无
 ************************************************/
-Vec2l::Vec2l(long xx, long yy)
+Vector2::Vector2(T xx, T yy)
 {
 	x = xx; y = yy;
 }
@@ -31,27 +31,25 @@ Vec2l::Vec2l(long xx, long yy)
 功能:重载运算符
 备注:无
 ************************************************/
-Vec2l Vec2l::operator +(const Vec2l &c)
+Vector2 Vector2::operator +(const Vector2 &c)
 {
-	Vec2l p;
+	Vector2 p;
 	p.x = x + c.x; p.y = y + c.y;
 	return p;
 }
-Vec2l Vec2l::operator -(const Vec2l &c)
+Vector2 Vector2::operator -(const Vector2 &c)
 {
-	Vec2l p;
+	Vector2 p;
 	p.x = x - c.x; p.y = y - c.y;
 	return p;
 }
-Vec2l Vec2l::operator *(const long long &c)
+Vector2 Vector2::operator *(const int &c)
 {
-	Vec2l p;
+	Vector2 p;
 	p.x = x * c; p.y = y * c;
 	return p;
 }
-bool Vec2l::operator ==(Vec2l const &p)
+bool Vector2::operator ==(const Vector2 &p)
 {
-	if (p.x == x&&p.y == y)
-		return true;
-	return false;
+	return (p.x == x&&p.y == y)
 }

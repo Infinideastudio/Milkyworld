@@ -31,5 +31,8 @@ enum class ItemType :ushort
 	stone,//圆石2
 	dirt,//泥土3
 	grass,//草地4
+	copper,//铜锭(Cu100%)
+	brass,//黄铜锭(Cu34%，Fe30%，S36%)
+	gold,//金锭(Au100%)
 };
 #endif

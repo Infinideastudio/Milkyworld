@@ -30,7 +30,7 @@ public:
 	double amplitude;//幅度，可改，越大地形高度变化越大
 	unsigned long long seed;
 	//随机数发生器(未经过处理)
-	double Noise(int x);
+	double Noise(__int64 x);
 	//平滑噪声(取平均值)
 	double smoothedNoise(double x);
 	//线性插值函数

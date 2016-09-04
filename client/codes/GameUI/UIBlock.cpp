@@ -74,7 +74,7 @@ void UIBlock::set_front_block(FrontBlock _block)
 	else
 	{
 		front_sprite->setVisible(true);
-		front_sprite->setTexture(int_2_string(static_cast<ushort>(front_block.type)) + ".png");
+		front_sprite->setTexture("texture\\block\\"+int_2_string(static_cast<ushort>(front_block.type)) + ".png");
 	}
 
 }

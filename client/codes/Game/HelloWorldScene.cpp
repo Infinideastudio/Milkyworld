@@ -355,14 +355,15 @@ void HelloWorld::UI_processor_init()
 			if (UI_block_location.x >= world_width)
 			{
 				//从右侧越界，因此借用地图最左边的方块来显示
+				
 				UI_block[i][j].is_borrow = 1;
 				UI_block_location.x -= world_width;
 			}
 			//计算UI方块所对应的chunk的位置
 			UI_block_chunk_location.x = UI_block_location.x / (length_of_block_size*picture_length);
 			UI_block_chunk_location.y = UI_block_location.y / (length_of_block_size*picture_length);
-			if (UI_block_location.x < 0)UI_block_chunk_location.x -= 1;
-			if (UI_block_location.y < 0)UI_block_chunk_location.y -= 1;
+			if (UI_block_location.x < 0)UI_block_chunk_location.x--;
+			if (UI_block_location.y < 0)UI_block_chunk_location.y--;
 			//计算偏移像素坐标，由于上一步向下取整，于是作差得出偏移坐标
 			UI_block_block_location.x = UI_block_location.x - 
 				UI_block_chunk_location.x*(length_of_block_size*picture_length);

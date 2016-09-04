@@ -63,7 +63,7 @@ Chunk& Planet::get_chunk(Vec2i _location)
 功能:直接操作block
 备注:无
 ************************************************/
-FrontBlock& Planet::front_block(Vec2i _location)
+FrontBlock &Planet::front_block(Vec2i _location)
 {
 	Vec2i __location = _location;
 	int world_block_width = chunk_size.x *length_of_block_size;
@@ -105,8 +105,10 @@ void Planet::generate_terrain()
 	noise_perducer.amplitude = 3;
 	int now = sea_level;//当前高度
 	int target = sea_level;//目标高度
-	int height;
-	height = noise_perducer.perlin_noise(0) + sea_level;
+	//通常是空气和泥土的分界线
+	int height_first;
+	//通常是泥土和石头的分界线
+	int height_second;
 	for (int i = 0; i < get_chunk_size().x*length_of_block_size; i++)
 	{
 		world_vars::game_load_schedule = i * 100 / (get_chunk_size().x*length_of_block_size);
@@ -130,35 +132,41 @@ void Planet::generate_terrain()
 		//	noise_perducer.amplitude = 6;
 		//	sea_level = 768 + 20;
 		//}
-		height = noise_perducer.perlin_noise(i) + sea_level;
+		noise_perducer.amplitude = 3;
+		height_first = noise_perducer.perlin_noise(i) + sea_level;
+		noise_perducer.amplitude = 2;
+		height_second = noise_perducer.perlin_noise(i+chunk_size.x*length_of_block_size) + sea_level-8;
 		for (int j = 0; j < get_chunk_size().y*length_of_block_size; j++)
 		{
-			//front_block(Vec2i(i, j)).touch_box = MyRectangle(Vec2(i, j + 1)*picture_length, Vec2(i + 1, j)*picture_length);
-			if (j <= sea_level && j>height)
+			Vec2i cur = Vec2i(i, j);
+			if (j <= height_second)
 			{
-				if (sea_level = 768)
-					front_block(Vec2i(i, j)).type = FrontBlockType::water;
-				else
-					front_block(Vec2i(i, j)).type = FrontBlockType::dirt;
-				front_block(Vec2i(i, j)).enabled_touch = true;
+				front_block(cur).type = FrontBlockType::rock;
+				front_block(cur).enabled_touch = true;
 				continue;
 			}
-			else
-			if (j < height || j<sea_level)
+			if (j > height_second && j<height_first)
 			{
-				front_block(Vec2i(i, j)).type = FrontBlockType::dirt;
-				front_block(Vec2i(i, j)).enabled_touch = true;
+				front_block(cur).type = FrontBlockType::dirt;
+				front_block(cur).enabled_touch = true;
+				continue;
 			}
-			else
-			if (j == height)
+			if (j <= sea_level && j>height_first&&j>height_second)
 			{
-				front_block(Vec2i(i, j)).type = FrontBlockType::grass;
-				front_block(Vec2i(i, j)).enabled_touch = true;
+				front_block(cur).type = FrontBlockType::water;
+				front_block(cur).enabled_touch = true;
+				continue;
 			}
-			else
+			if (j == height_first)
 			{
-				front_block(Vec2i(i, j)).type = FrontBlockType::air;
-				front_block(Vec2i(i, j)).enabled_touch = false;
+				front_block(cur).type = FrontBlockType::grass;
+				front_block(cur).enabled_touch = true;
+				continue;
+			}
+			if (j>height_first)
+			{
+				front_block(cur).type = FrontBlockType::air;
+				front_block(cur).enabled_touch = false;
 			}
 		}
 	}

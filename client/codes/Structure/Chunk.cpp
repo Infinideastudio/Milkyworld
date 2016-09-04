@@ -35,7 +35,7 @@ void Chunk::set_front_block(Vec2i position, FrontBlock _front_block)
 功能:获取前景方块
 备注:无
 ************************************************/
-FrontBlock& Chunk::get_front_block(Vec2i location)
+FrontBlock &Chunk::get_front_block(Vec2i location)
 {
 	int _x = location.x * length_of_block_size + location.y;
 	return front_block[_x];

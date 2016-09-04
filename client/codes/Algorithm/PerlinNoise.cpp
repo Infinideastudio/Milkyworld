@@ -22,7 +22,7 @@
 功能:随机数发生器
 备注:未经过处理
 ************************************************/
-double PerlinNoise::Noise(int x)
+double PerlinNoise::Noise(__int64 x)
 {
 	x = (x << 13) ^ x;
 	return 1.0 - ((x * (x * x * seed + 789221) + 1376312589) & 0x7fffffff) / 1073741824.0 + 1;

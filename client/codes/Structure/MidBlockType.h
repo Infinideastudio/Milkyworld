@@ -28,9 +28,10 @@
 enum class MidBlockType :ushort
 {
 	_void,//¿Õ0
-	wood,//Ô­Ä¾1
-	stone,//2
-	dirt,//ÄàÍÁ3
-	grass,//²İµØ4
+	oak,//ÏğÊ÷
+	pine,//ËÉÊ÷
+	orange_tree,//éÙ×ÓÊ÷
+	apple_tree,//Æ»¹ûÊ÷
+	cherry_tree,//Ó£ÌÒÊ÷
 };
 #endif

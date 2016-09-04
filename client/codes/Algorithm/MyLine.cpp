@@ -16,7 +16,7 @@
 * You should have received a copy of the GNU Lesser General Public License
 * along with Milkyworld.  If not, see <http://www.gnu.org/licenses/>.
 */
-#include"MyLine.h"
+#include "MyLine.h"
 /************************************************
 函数名:MyLine
 功能:构造函数

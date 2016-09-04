@@ -26,12 +26,27 @@
 ************************************************/
 enum class FrontBlockType : ushort
 {
-	vacuum,//真空0
-	air,//空气1
-	rock,//岩石2
-	stone,//圆石3
-	dirt,//泥土4
-	grass,//草地5
-	water,//水6
+	vacuum,//真空
+	air,//空气
+	rock,//岩石
+	stone,//石头
+	stone_brick,//石砖
+	sand,//沙子
+	black_sand,//黑沙
+	grit,//砂砾
+	clay,//粘土
+	dirt,//泥土
+	grass,//草地
+	wood,//木材
+	coal,//煤矿石
+	chalcopyrite,//黄铜矿石(CuFeS2)
+	cassiterite,//锡石(Sn)
+	hematite,//赤铁矿石(Fe2O3)
+	ilmenite,//钛铁矿石(FeTiO3)
+	bauxite,//铝土矿石(Al2O3)
+	uranium,//铀矿石(U)
+	gold,//金矿石(Au)
+	water,//水
+	lava,//岩浆
 };
 #endif
